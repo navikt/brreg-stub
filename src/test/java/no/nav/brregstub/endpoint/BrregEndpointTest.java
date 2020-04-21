@@ -3,7 +3,6 @@ package no.nav.brregstub.endpoint;
 import no.nav.brregstub.ApplicationConfig;
 import no.nav.brregstub.tjenestekontrakter.ws.ErFr;
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,9 +22,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BrregEndpointTest {
 
     @LocalServerPort
-    int randomServerPort;
+    private int randomServerPort;
 
-    ErFr client;
+    private ErFr client;
 
     @BeforeAll
     void onSetup() {
