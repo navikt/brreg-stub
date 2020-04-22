@@ -1,32 +1,41 @@
 package no.nav.brregstub.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import no.nav.brregstub.api.OrganisasjonTo;
 import no.nav.brregstub.api.RolleutskriftTo;
-import no.nav.brregstub.database.domene.Rolleutskrift;
+import no.nav.brregstub.database.repository.HentRolleRepository;
 import no.nav.brregstub.database.repository.RolleutskriftRepository;
+import no.nav.brregstub.mapper.HentRolleMapper;
 import no.nav.brregstub.mapper.RolleutskriftMapper;
 import no.nav.brregstub.tjenestekontrakter.hentroller.Grunndata;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXB;
-import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class BrregService {
 
-    @Autowired
     private RolleutskriftRepository rolleutskriftRepository;
 
-    @Autowired
+    private HentRolleRepository hentRolleRepository;
+
     private RolleutskriftMapper rolleutskriftMapper;
 
-    @Autowired
+    private HentRolleMapper hentRolleMapper;
+
     private ObjectMapper objectMapper;
 
 
+    @SneakyThrows
     public Grunndata hentRoller(String orgnummer) {
+        var hentRolle = hentRolleRepository.findByOrgnr(Integer.parseInt(orgnummer));
+        if (hentRolle.isPresent()) {
+            var fromDb = objectMapper.readValue(hentRolle.get().getJson(), OrganisasjonTo.class);
+            return hentRolleMapper.map(fromDb);
+        }
         var in = this.getClass().getResourceAsStream("/response/HentRollerResponse.xml");
         var grunndata = JAXB.unmarshal(in, Grunndata.class);
         grunndata.getResponseHeader().setOrgnr(Integer.parseInt(orgnummer));
@@ -35,7 +44,7 @@ public class BrregService {
 
     @SneakyThrows
     public no.nav.brregstub.tjenestekontrakter.rolleutskrift.Grunndata hentRolleutskrift(String requestId) {
-        var rolleutskrift =  rolleutskriftRepository.findByIdent(requestId);
+        var rolleutskrift = rolleutskriftRepository.findByIdent(requestId);
         if (rolleutskrift.isPresent()) {
             var d = objectMapper.readValue(rolleutskrift.get().getJson(), RolleutskriftTo.class);
             return rolleutskriftMapper.map(d);
@@ -45,37 +54,5 @@ public class BrregService {
         var grunndata = JAXB.unmarshal(in, no.nav.brregstub.tjenestekontrakter.rolleutskrift.Grunndata.class);
         grunndata.getResponseHeader().setFodselsnr(requestId);
         return grunndata;
-    }
-
-    @SneakyThrows
-    public Optional<RolleutskriftTo> opprettRolleutskriftGrunndata(RolleutskriftTo rolleinnhaver) {
-        rolleutskriftMapper.map(rolleinnhaver);
-
-        var rollutskrift = rolleutskriftRepository.findByIdent(rolleinnhaver.getFnr())
-                                                  .orElseGet(() -> {
-                                                      var rolleutskrift = new Rolleutskrift();
-                                                      rolleutskrift.setIdent(rolleinnhaver.getFnr());
-                                                      return rolleutskrift;
-                                                  });
-
-        rollutskrift.setJson(objectMapper.writeValueAsString(rolleinnhaver));
-
-        rolleutskriftRepository.save(rollutskrift);
-        return Optional.of(rolleinnhaver);
-    }
-
-    @SneakyThrows
-    public Optional<RolleutskriftTo> hentRolleinnhaverTo(String ident) {
-        var rolleutskrift = rolleutskriftRepository.findByIdent(ident);
-
-        if (rolleutskrift.isPresent()) {
-            var to = objectMapper.readValue(rolleutskrift.get().getJson(), RolleutskriftTo.class);
-            return Optional.of(to);
-        }
-        return Optional.empty();
-    }
-
-    public void slettRolleutskriftGrunndata(String ident) {
-        rolleutskriftRepository.findByIdent(ident).ifPresent(ru -> rolleutskriftRepository.delete(ru));
     }
 }
