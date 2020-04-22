@@ -16,10 +16,11 @@ import java.util.List;
 @NoArgsConstructor
 public class RolleutskriftTo {
 
+    @ApiModelProperty(dataType = "java.lang.String", example = "0101976100000", required = true)
     private String fnr;
-    @ApiModelProperty(dataType = "java.lang.String", example = "2020-01-01")
+    @ApiModelProperty(dataType = "java.lang.String", example = "1976-01-01", required = true)
     private LocalDate fodselsdato;
     private NavnTo navn;
     private AdresseTo adresse;
-    List<RolleEnhetTo> enheter;
+    List<RolleTo> enheter;
 }

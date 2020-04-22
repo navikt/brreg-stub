@@ -3,7 +3,7 @@ package no.nav.brregstub.mapper;
 import lombok.SneakyThrows;
 import no.nav.brregstub.api.AdresseTo;
 import no.nav.brregstub.api.NavnTo;
-import no.nav.brregstub.api.RolleEnhetTo;
+import no.nav.brregstub.api.RolleTo;
 import no.nav.brregstub.api.RolleutskriftTo;
 import no.nav.brregstub.tjenestekontrakter.rolleutskrift.AdresseType1;
 import no.nav.brregstub.tjenestekontrakter.rolleutskrift.AdresseType2;
@@ -28,6 +28,8 @@ import static java.time.format.DateTimeFormatter.ISO_DATE;
 public class RolleutskriftMapper {
 
 
+    public static final String TJENESTE_NAVN = "hentRolleutskrift";
+
     public Grunndata map(RolleutskriftTo to) {
         var grunndata = new Grunndata();
         var responseHeader = mapTilResponseHeader(to.getFnr());
@@ -42,7 +44,7 @@ public class RolleutskriftMapper {
     private static ResponseHeader mapTilResponseHeader(String fødselsnummer) {
         var responseHeader = new ResponseHeader();
         responseHeader.setProssessDato(localDateToXmlGregorianCalendar(LocalDate.now()));
-        responseHeader.setTjeneste("hentRolleutskrift");
+        responseHeader.setTjeneste(TJENESTE_NAVN);
         responseHeader.setFodselsnr(fødselsnummer);
         responseHeader.setHovedStatus(0);
         var underStatus = new UnderStatus();
@@ -58,6 +60,7 @@ public class RolleutskriftMapper {
         var melding = new Melding();
         melding.setRolleInnehaver(mapTilRolleInnhaver(to));
         melding.setRoller(mapTilRoller(to));
+        melding.setTjeneste(TJENESTE_NAVN);
 
         return melding;
     }
@@ -66,11 +69,12 @@ public class RolleutskriftMapper {
         var roller = new Melding.Roller();
         if (to.getEnheter() != null) {
             int count = 1;
-            for (RolleEnhetTo enhetTo : to.getEnheter()) {
+            for (RolleTo enhetTo : to.getEnheter()) {
                 var enhet = new Enhet();
+                enhet.setRolleBeskrivelse(mapTilRollebeskrivelse(enhetTo.getBeskrivelse()));
                 enhet.setNr(count);
                 count++;
-                enhet.setNavn(mapTilNavntype(enhetTo.getNavn()));
+                enhet.setNavn(mapTilNavntype(enhetTo.getForetaksNavn()));
                 enhet.setOrgnr(mapTilOrganisasjonsNummer(enhetTo.getOrgNr()));
                 enhet.setAdresse(mapTilAdresseEnhet(enhetTo));
                 enhet.setRegistreringsDato(localDateToXmlGregorianCalendar(enhetTo.getRegistreringsdato()));
@@ -82,6 +86,13 @@ public class RolleutskriftMapper {
         }
         return roller;
 
+    }
+
+    public static Enhet.RolleBeskrivelse mapTilRollebeskrivelse(String beskrivelseTo) {
+        var beskrivelse = new Enhet.RolleBeskrivelse();
+        beskrivelse.setValue(beskrivelseTo);
+        beskrivelse.setLedetekst("Rolle");
+        return beskrivelse;
     }
 
     public static Enhet.Orgnr mapTilOrganisasjonsNummer(Integer orgnrTo) {
@@ -132,6 +143,7 @@ public class RolleutskriftMapper {
         adresse.setPoststed(to.getPoststed());
         var kommune = new AdresseType2.Kommune();
         kommune.setValue(to.getKommune());
+        kommune.setKommnr(to.getKommunenr());
         adresse.setKommune(kommune);
         var land = new AdresseType2.Land();
         land.setLandkode1(to.getLandKode());
@@ -140,7 +152,7 @@ public class RolleutskriftMapper {
         return adresse;
     }
 
-    private static Enhet.Adresse mapTilAdresseEnhet(RolleEnhetTo to) {
+    private static Enhet.Adresse mapTilAdresseEnhet(RolleTo to) {
         var adresse = new Enhet.Adresse();
         adresse.setForretningsAdresse(mapTilAdresse2(to.getForretningsAdresse()));
         adresse.setPostAdresse(mapTilAdresse2(to.getPostAdresse()));

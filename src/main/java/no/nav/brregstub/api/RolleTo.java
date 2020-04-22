@@ -13,12 +13,14 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RolleEnhetTo {
+public class RolleTo {
     @ApiModelProperty(dataType = "java.lang.String", example = "2020-01-01")
     private LocalDate registreringsdato;
+    @ApiModelProperty(example = "Innhaver", required = true)
     private String beskrivelse;
+    @ApiModelProperty(example = "998877665", required = true)
     private Integer orgNr;
-    private NavnTo navn;
+    private NavnTo foretaksNavn;
     private AdresseTo forretningsAdresse;
     private AdresseTo postAdresse;
 }
