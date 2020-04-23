@@ -12,8 +12,6 @@ import no.nav.brregstub.mapper.RolleutskriftMapper;
 import no.nav.brregstub.tjenestekontrakter.hentroller.Grunndata;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.JAXB;
-
 @Service
 @AllArgsConstructor
 public class BrregService {
@@ -53,9 +51,10 @@ public class BrregService {
             return rolleutskriftMapper.map(d);
         }
 
-        var in = this.getClass().getResourceAsStream("/response/HentRolleutskriftResponse.xml");
-        var grunndata = JAXB.unmarshal(in, no.nav.brregstub.tjenestekontrakter.rolleutskrift.Grunndata.class);
-        grunndata.getResponseHeader().setFodselsnr(requestId);
-        return grunndata;
+        var personIkkeFunnet = new RolleutskriftTo();
+        personIkkeFunnet.setFnr(requestId);
+        personIkkeFunnet.setHovedstatus(1);
+        personIkkeFunnet.getUnderstatuser().add(180);
+        return rolleutskriftMapper.map(personIkkeFunnet);
     }
 }

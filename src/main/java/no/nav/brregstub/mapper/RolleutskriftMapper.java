@@ -23,6 +23,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.time.LocalDate;
 
 import static java.time.format.DateTimeFormatter.ISO_DATE;
+import static no.nav.brregstub.api.UnderstatusKode.understatusKoder;
 
 @Component
 public class RolleutskriftMapper {
@@ -32,26 +33,31 @@ public class RolleutskriftMapper {
 
     public Grunndata map(RolleutskriftTo to) {
         var grunndata = new Grunndata();
-        var responseHeader = mapTilResponseHeader(to.getFnr());
-        var melding = mapTilMelding(to);
+        var responseHeader = mapTilResponseHeader(to);
         grunndata.setResponseHeader(responseHeader);
-        grunndata.setMelding(melding);
 
+        if (to.getHovedstatus() == 0) {
+            var melding = mapTilMelding(to);
+            grunndata.setMelding(melding);
+        }
 
         return grunndata;
     }
 
-    private static ResponseHeader mapTilResponseHeader(String fødselsnummer) {
+    private static ResponseHeader mapTilResponseHeader(RolleutskriftTo to) {
         var responseHeader = new ResponseHeader();
         responseHeader.setProssessDato(localDateToXmlGregorianCalendar(LocalDate.now()));
         responseHeader.setTjeneste(TJENESTE_NAVN);
-        responseHeader.setFodselsnr(fødselsnummer);
-        responseHeader.setHovedStatus(0);
+        responseHeader.setFodselsnr(to.getFnr());
+        responseHeader.setHovedStatus(to.getHovedstatus());
         var underStatus = new UnderStatus();
-        var underStatusMelding = new UnderStatusMelding();
-        underStatusMelding.setKode(0);
-        underStatusMelding.setValue("Data returnert");
-        underStatus.getUnderStatusMelding().add(underStatusMelding);
+        for (Integer understatus : to.getUnderstatuser()) {
+            var underStatusMelding = new UnderStatusMelding();
+            underStatusMelding.setKode(understatus);
+            underStatusMelding.setValue(understatusKoder.get(understatus));
+
+            underStatus.getUnderStatusMelding().add(underStatusMelding);
+        }
         responseHeader.setUnderStatus(underStatus);
         return responseHeader;
     }
@@ -71,16 +77,13 @@ public class RolleutskriftMapper {
             int count = 1;
             for (RolleTo enhetTo : to.getEnheter()) {
                 var enhet = new Enhet();
-                enhet.setRolleBeskrivelse(mapTilRollebeskrivelse(enhetTo.getBeskrivelse()));
+                enhet.setRolleBeskrivelse(mapTilRollebeskrivelse(enhetTo.getRollekode().getBeskrivelse()));
                 enhet.setNr(count);
                 count++;
                 enhet.setNavn(mapTilNavntype(enhetTo.getForetaksNavn()));
                 enhet.setOrgnr(mapTilOrganisasjonsNummer(enhetTo.getOrgNr()));
                 enhet.setAdresse(mapTilAdresseEnhet(enhetTo));
                 enhet.setRegistreringsDato(localDateToXmlGregorianCalendar(enhetTo.getRegistreringsdato()));
-                var beskrivelse = new Enhet.RolleBeskrivelse();
-                beskrivelse.setValue(enhetTo.getBeskrivelse());
-                enhet.setRolleBeskrivelse(beskrivelse);
                 roller.getEnhet().add(enhet);
             }
         }

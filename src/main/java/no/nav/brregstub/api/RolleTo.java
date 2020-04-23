@@ -16,8 +16,8 @@ import java.time.LocalDate;
 public class RolleTo {
     @ApiModelProperty(dataType = "java.lang.String", example = "2020-01-01")
     private LocalDate registreringsdato;
-    @ApiModelProperty(example = "Innhaver", required = true)
-    private String beskrivelse;
+    @ApiModelProperty(example = "INNH", required = true)
+    private RolleKode rollekode;
     @ApiModelProperty(example = "998877665", required = true)
     private Integer orgNr;
     private NavnTo foretaksNavn;

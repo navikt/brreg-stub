@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 
 @Setter
@@ -23,4 +24,7 @@ public class RolleutskriftTo {
     private NavnTo navn;
     private AdresseTo adresse;
     List<RolleTo> enheter;
+    @ApiModelProperty(example = "0", required = true)
+    private Integer hovedstatus;
+    private List<Integer> understatuser = new LinkedList<>();
 }

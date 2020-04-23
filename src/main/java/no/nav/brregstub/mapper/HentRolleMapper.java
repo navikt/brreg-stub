@@ -43,17 +43,15 @@ public class HentRolleMapper {
         responseHeader.setTjeneste(TJENESTE_NAVN);
         responseHeader.setOrgnr(to.getOrgnr());
         responseHeader.setHovedStatus(to.getHovedstatus() == null ? 0 : to.getHovedstatus());
-        if (to.getUnderstatuser() != null) {
-            var underStatus = new ResponseHeader.UnderStatus();
-            for (Integer understatus : to.getUnderstatuser()) {
-                var underStatusMelding = new UnderStatusMelding();
-                underStatusMelding.setKode(understatus);
-                underStatusMelding.setValue(understatusKoder.get(understatus));
+        var underStatus = new ResponseHeader.UnderStatus();
+        for (Integer understatus : to.getUnderstatuser()) {
+            var underStatusMelding = new UnderStatusMelding();
+            underStatusMelding.setKode(understatus);
+            underStatusMelding.setValue(understatusKoder.get(understatus));
 
-                underStatus.getUnderStatusMelding().add(underStatusMelding);
-            }
-            responseHeader.setUnderStatus(underStatus);
+            underStatus.getUnderStatusMelding().add(underStatusMelding);
         }
+        responseHeader.setUnderStatus(underStatus);
         return responseHeader;
     }
 
