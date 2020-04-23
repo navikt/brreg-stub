@@ -16,15 +16,14 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class BrregService {
 
-    private RolleutskriftRepository rolleutskriftRepository;
+    public static final int PERSON_IKKE_FUNNET = 180;
+    public static final int ENHET_IKKE_FUNNET = 100;
 
-    private HentRolleRepository hentRolleRepository;
+    private final RolleutskriftRepository rolleutskriftRepository;
 
-    private RolleutskriftMapper rolleutskriftMapper;
+    private final HentRolleRepository hentRolleRepository;
 
-    private HentRolleMapper hentRolleMapper;
-
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
 
     @SneakyThrows
@@ -33,14 +32,14 @@ public class BrregService {
         var hentRolle = hentRolleRepository.findByOrgnr(orgNr);
         if (hentRolle.isPresent()) {
             var fromDb = objectMapper.readValue(hentRolle.get().getJson(), OrganisasjonTo.class);
-            return hentRolleMapper.map(fromDb);
+            return HentRolleMapper.map(fromDb);
         }
 
         var organisasjonIkkeFunnet = new OrganisasjonTo();
         organisasjonIkkeFunnet.setOrgnr(orgNr);
         organisasjonIkkeFunnet.setHovedstatus(1);
-        organisasjonIkkeFunnet.getUnderstatuser().add(100);
-        return hentRolleMapper.map(organisasjonIkkeFunnet);
+        organisasjonIkkeFunnet.getUnderstatuser().add(ENHET_IKKE_FUNNET);
+        return HentRolleMapper.map(organisasjonIkkeFunnet);
     }
 
     @SneakyThrows
@@ -48,13 +47,13 @@ public class BrregService {
         var rolleutskrift = rolleutskriftRepository.findByIdent(requestId);
         if (rolleutskrift.isPresent()) {
             var d = objectMapper.readValue(rolleutskrift.get().getJson(), RolleutskriftTo.class);
-            return rolleutskriftMapper.map(d);
+            return RolleutskriftMapper.map(d);
         }
 
         var personIkkeFunnet = new RolleutskriftTo();
         personIkkeFunnet.setFnr(requestId);
         personIkkeFunnet.setHovedstatus(1);
-        personIkkeFunnet.getUnderstatuser().add(180);
-        return rolleutskriftMapper.map(personIkkeFunnet);
+        personIkkeFunnet.getUnderstatuser().add(PERSON_IKKE_FUNNET);
+        return RolleutskriftMapper.map(personIkkeFunnet);
     }
 }

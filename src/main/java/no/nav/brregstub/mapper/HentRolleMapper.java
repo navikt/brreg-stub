@@ -19,13 +19,12 @@ import java.time.LocalDate;
 import static java.time.format.DateTimeFormatter.ISO_DATE;
 import static no.nav.brregstub.api.UnderstatusKode.understatusKoder;
 
-@Component
 public class HentRolleMapper {
 
 
     public static final String TJENESTE_NAVN = "hentRoller";
 
-    public Grunndata map(OrganisasjonTo to) {
+    public static Grunndata map(OrganisasjonTo to) {
         var grunndata = new Grunndata();
         var responseHeader = mapTilResponseHeader(to);
         grunndata.setResponseHeader(responseHeader);

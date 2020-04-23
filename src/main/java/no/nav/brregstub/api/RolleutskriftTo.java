@@ -23,7 +23,7 @@ public class RolleutskriftTo {
     private LocalDate fodselsdato;
     private NavnTo navn;
     private AdresseTo adresse;
-    List<RolleTo> enheter;
+    private List<RolleTo> enheter;
     @ApiModelProperty(example = "0", required = true)
     private Integer hovedstatus;
     private List<Integer> understatuser = new LinkedList<>();

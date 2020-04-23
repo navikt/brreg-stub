@@ -25,13 +25,12 @@ import java.time.LocalDate;
 import static java.time.format.DateTimeFormatter.ISO_DATE;
 import static no.nav.brregstub.api.UnderstatusKode.understatusKoder;
 
-@Component
 public class RolleutskriftMapper {
 
 
     public static final String TJENESTE_NAVN = "hentRolleutskrift";
 
-    public Grunndata map(RolleutskriftTo to) {
+    public static Grunndata map(RolleutskriftTo to) {
         var grunndata = new Grunndata();
         var responseHeader = mapTilResponseHeader(to);
         grunndata.setResponseHeader(responseHeader);
@@ -62,7 +61,7 @@ public class RolleutskriftMapper {
         return responseHeader;
     }
 
-    private Melding mapTilMelding(RolleutskriftTo to) {
+    private static Melding mapTilMelding(RolleutskriftTo to) {
         var melding = new Melding();
         melding.setRolleInnehaver(mapTilRolleInnhaver(to));
         melding.setRoller(mapTilRoller(to));

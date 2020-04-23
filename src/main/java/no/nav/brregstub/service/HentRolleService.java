@@ -15,15 +15,13 @@ import java.util.Optional;
 @AllArgsConstructor
 public class HentRolleService {
 
-    private HentRolleRepository hentRolleRepository;
+    private final HentRolleRepository hentRolleRepository;
 
-    private HentRolleMapper hentRolleMapper;
-
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @SneakyThrows
     public Optional<OrganisasjonTo> lagreEllerOppdaterDataForHentRolle(OrganisasjonTo request) {
-        hentRolleMapper.map(request);
+        HentRolleMapper.map(request); //sjekker om input kan mappes før lagring
 
         var rollutskrift = hentRolleRepository.findByOrgnr(request.getOrgnr())
                                               .orElseGet(() -> {

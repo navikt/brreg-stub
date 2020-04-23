@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.nav.brregstub.api.RolleutskriftTo;
 import no.nav.brregstub.exception.CouldNotCreateStubException;
 import no.nav.brregstub.exception.NotFoundException;
-import no.nav.brregstub.service.HentRolleutskriftService;
+import no.nav.brregstub.service.RolleutskriftService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class HentRolleutskriftController {
 
-    private HentRolleutskriftService service;
+    private final RolleutskriftService service;
 
 
     @PostMapping

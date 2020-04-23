@@ -1,6 +1,8 @@
 package no.nav.brregstub.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import no.nav.brregstub.api.RolleutskriftTo;
 import no.nav.brregstub.database.domene.Rolleutskrift;
@@ -12,20 +14,16 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class HentRolleutskriftService {
+@RequiredArgsConstructor
+public class RolleutskriftService {
 
-    @Autowired
-    private RolleutskriftRepository rolleutskriftRepository;
+    private final RolleutskriftRepository rolleutskriftRepository;
 
-    @Autowired
-    private RolleutskriftMapper rolleutskriftMapper;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @SneakyThrows
     public Optional<RolleutskriftTo> opprettRolleutskriftGrunndata(RolleutskriftTo rolleinnhaver) {
-        rolleutskriftMapper.map(rolleinnhaver);
+        RolleutskriftMapper.map(rolleinnhaver); //Sjekker om object kan mappes
 
         var rollutskrift = rolleutskriftRepository.findByIdent(rolleinnhaver.getFnr())
                                                   .orElseGet(() -> {
