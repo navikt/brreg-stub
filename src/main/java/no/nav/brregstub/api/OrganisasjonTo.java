@@ -19,8 +19,9 @@ public class OrganisasjonTo {
 
     @ApiModelProperty(example = "998877665", required = true)
     private Integer orgnr;
+    @ApiModelProperty(example = "0", required = true)
     private Integer hovedstatus;
-    private List<Integer> understatuser;
+    private List<Integer> understatuser = new LinkedList<>();
     @ApiModelProperty(dataType = "java.lang.String", example = "1976-01-01", required = true)
     private LocalDate registreringsdato;
     private SamendringTo kontaktperson;

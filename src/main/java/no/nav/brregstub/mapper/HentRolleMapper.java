@@ -3,6 +3,7 @@ package no.nav.brregstub.mapper;
 import lombok.SneakyThrows;
 import no.nav.brregstub.api.OrganisasjonTo;
 import no.nav.brregstub.api.PersonOgRolleTo;
+import no.nav.brregstub.api.RolleKode;
 import no.nav.brregstub.api.SamendringTo;
 import no.nav.brregstub.tjenestekontrakter.hentroller.Grunndata;
 import no.nav.brregstub.tjenestekontrakter.hentroller.Grunndata.Melding;
@@ -16,6 +17,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.time.LocalDate;
 
 import static java.time.format.DateTimeFormatter.ISO_DATE;
+import static no.nav.brregstub.api.UnderstatusKode.understatusKoder;
 
 @Component
 public class HentRolleMapper {
@@ -26,9 +28,12 @@ public class HentRolleMapper {
     public Grunndata map(OrganisasjonTo to) {
         var grunndata = new Grunndata();
         var responseHeader = mapTilResponseHeader(to);
-        var melding = mapTilMelding(to);
         grunndata.setResponseHeader(responseHeader);
-        grunndata.setMelding(melding);
+
+        if (to.getHovedstatus() == 0) {
+            var melding = mapTilMelding(to);
+            grunndata.setMelding(melding);
+        }
         return grunndata;
     }
 
@@ -43,7 +48,7 @@ public class HentRolleMapper {
             for (Integer understatus : to.getUnderstatuser()) {
                 var underStatusMelding = new UnderStatusMelding();
                 underStatusMelding.setKode(understatus);
-                underStatusMelding.setValue(understatus.toString());
+                underStatusMelding.setValue(understatusKoder.get(understatus));
 
                 underStatus.getUnderStatusMelding().add(underStatusMelding);
             }
@@ -67,38 +72,38 @@ public class HentRolleMapper {
 
     private static Melding.Kontaktperson mapTilKontaktperson(OrganisasjonTo to) {
         var kontaktperson = new Melding.Kontaktperson();
-        kontaktperson.getSamendring().add(mapTilSamendring(to.getKontaktperson()));
+        kontaktperson.getSamendring().add(mapTilSamendring(to.getKontaktperson(), RolleKode.KONT));
         return kontaktperson;
     }
 
     private static Melding.Styre mapTilStyre(OrganisasjonTo to) {
         var styre = new Melding.Styre();
-        styre.getSamendring().add(mapTilSamendring(to.getStyre()));
+        styre.getSamendring().add(mapTilSamendring(to.getStyre(), RolleKode.STYR));
         return styre;
     }
 
     private static Melding.Deltakere mapTilDeltakere(OrganisasjonTo to) {
         var deltakere = new Melding.Deltakere();
-        deltakere.getSamendring().add(mapTilSamendring(to.getDeltakere()));
+        deltakere.getSamendring().add(mapTilSamendring(to.getDeltakere(), RolleKode.DELT));
         return deltakere;
     }
 
     private static Melding.Komplementar mapTilKomplementar(OrganisasjonTo to) {
         var komplementar = new Melding.Komplementar();
-        komplementar.getSamendring().add(mapTilSamendring(to.getKomplementar()));
+        komplementar.getSamendring().add(mapTilSamendring(to.getKomplementar(), RolleKode.KOMP));
         return komplementar;
     }
 
     private static Melding.Sameiere mapTilSameiere(OrganisasjonTo to) {
         var sameier = new Melding.Sameiere();
-        sameier.getSamendring().add(mapTilSamendring(to.getSameier()));
+        sameier.getSamendring().add(mapTilSamendring(to.getSameier(), RolleKode.SAM));
         return sameier;
     }
 
-    private static Samendring mapTilSamendring(SamendringTo to) {
+    private static Samendring mapTilSamendring(SamendringTo to, RolleKode rolleKode) {
         var samendring = new Samendring();
-        samendring.setSamendringstype(to.getType());
-        samendring.setBeskrivelse(to.getBeskrivelse());
+        samendring.setSamendringstype(rolleKode.name());
+        samendring.setBeskrivelse(rolleKode.getBeskrivelse());
         samendring.setRegistreringsDato(localDateToXmlGregorianCalendar(to.getRegistringsDato()));
 
         for (PersonOgRolleTo rolle : to.getRoller()) {
@@ -118,7 +123,7 @@ public class HentRolleMapper {
         person.setFornavn(to.getFornavn());
         person.setSlektsnavn(to.getSlektsnavn());
         person.setAdresse1(to.getAdresse1());
-        person.setFratraadt(to.isFratraadt() ? "J" : "N");
+        person.setFratraadt(to.isFratraadt() ? "F" : "N");
         person.setPoststed(to.getPoststed());
         var land = new Samendring.Rolle.Person.Land();
         land.setLandkode4("NOR");

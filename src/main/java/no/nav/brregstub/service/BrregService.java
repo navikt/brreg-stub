@@ -31,15 +31,18 @@ public class BrregService {
 
     @SneakyThrows
     public Grunndata hentRoller(String orgnummer) {
-        var hentRolle = hentRolleRepository.findByOrgnr(Integer.parseInt(orgnummer));
+        var orgNr = Integer.parseInt(orgnummer);
+        var hentRolle = hentRolleRepository.findByOrgnr(orgNr);
         if (hentRolle.isPresent()) {
             var fromDb = objectMapper.readValue(hentRolle.get().getJson(), OrganisasjonTo.class);
             return hentRolleMapper.map(fromDb);
         }
-        var in = this.getClass().getResourceAsStream("/response/HentRollerResponse.xml");
-        var grunndata = JAXB.unmarshal(in, Grunndata.class);
-        grunndata.getResponseHeader().setOrgnr(Integer.parseInt(orgnummer));
-        return grunndata;
+
+        var organisasjonIkkeFunnet = new OrganisasjonTo();
+        organisasjonIkkeFunnet.setOrgnr(orgNr);
+        organisasjonIkkeFunnet.setHovedstatus(1);
+        organisasjonIkkeFunnet.getUnderstatuser().add(100);
+        return hentRolleMapper.map(organisasjonIkkeFunnet);
     }
 
     @SneakyThrows

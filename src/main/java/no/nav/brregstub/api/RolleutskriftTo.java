@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class RolleutskriftTo {
 
-    @ApiModelProperty(dataType = "java.lang.String", example = "0101976100000", required = true)
+    @ApiModelProperty(dataType = "java.lang.String", example = "010176100000", required = true)
     private String fnr;
     @ApiModelProperty(dataType = "java.lang.String", example = "1976-01-01", required = true)
     private LocalDate fodselsdato;

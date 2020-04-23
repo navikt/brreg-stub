@@ -18,8 +18,6 @@ public class SamendringTo {
 
     @ApiModelProperty(dataType = "java.lang.String", example = "2004-01-01", required = true)
     private LocalDate registringsDato;
-    private String type;
-    private String beskrivelse;
     private List<PersonOgRolleTo> roller = new LinkedList<>();
 
 }

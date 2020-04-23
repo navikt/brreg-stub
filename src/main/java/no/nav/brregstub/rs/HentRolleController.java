@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.brregstub.api.OrganisasjonTo;
 import no.nav.brregstub.api.RolleKode;
+import no.nav.brregstub.api.UnderstatusKode;
 import no.nav.brregstub.exception.CouldNotCreateStubException;
 import no.nav.brregstub.exception.NotFoundException;
 import no.nav.brregstub.service.HentRolleService;
@@ -13,9 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.EnumMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Validated
@@ -51,12 +50,17 @@ public class HentRolleController {
 
     @GetMapping("/rollekode")
     public ResponseEntity<EnumMap<RolleKode, String>> hentRollekoder() {
-        var returValue  = new EnumMap<RolleKode, String>(RolleKode.class);
-        for (RolleKode rolleKode: RolleKode.values()) {
+        var returValue = new EnumMap<RolleKode, String>(RolleKode.class);
+        for (RolleKode rolleKode : RolleKode.values()) {
             returValue.put(rolleKode, rolleKode.getBeskrivelse());
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(returValue);
+    }
+
+    @GetMapping("/understatuskode")
+    public ResponseEntity<Map<Integer, String>> hentUnderstatuskoder() {
+        return ResponseEntity.status(HttpStatus.OK).body(UnderstatusKode.understatusKoder);
     }
 
 }
