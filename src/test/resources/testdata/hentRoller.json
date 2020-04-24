@@ -1,0 +1,93 @@
+{
+  "orgnr": 971524553,
+  "hovedstatus": 0,
+  "understatuser": [
+    0, 1180
+  ],
+  "registreringsdato": "1999-03-12",
+  "kontaktperson": {
+    "registringsDato": "2019-06-23",
+    "roller": [
+      {
+        "fodselsnr": "010176100000",
+        "rolle": "DAGL",
+        "fornavn": "Navn",
+        "slektsnavn": "Navnesen",
+        "adresse1": "Navneveien 12",
+        "postnr": "0576",
+        "poststed": "OSLO",
+        "fratraadt": false
+      }
+    ]
+  },
+  "sameier": {
+    "registringsDato": "2004-01-01",
+    "roller": [
+      {
+        "fodselsnr": "010176100000",
+        "rolle": "SAM",
+        "fornavn": "Navn",
+        "slektsnavn": "Navnesen",
+        "adresse1": "Navneveien 12",
+        "postnr": "0576",
+        "poststed": "OSLO",
+        "fratraadt": false
+      }
+    ]
+  },
+  "styre": {
+    "registringsDato": "2004-01-01",
+    "roller": [
+      {
+        "fodselsnr": "010176100000",
+        "rolle": "LEDE",
+        "fornavn": "Navn",
+        "slektsnavn": "Navnesen",
+        "adresse1": "Navneveien 12",
+        "postnr": "0576",
+        "poststed": "OSLO",
+        "fratraadt": false
+      },
+      {
+        "fodselsnr": "010176100000",
+        "rolle": "MEDL",
+        "fornavn": "Navn",
+        "slektsnavn": "Navnesen",
+        "adresse1": "Navneveien 12",
+        "postnr": "0576",
+        "poststed": "OSLO",
+        "fratraadt": false
+      }
+    ]
+  },
+  "komplementar": {
+    "registringsDato": "2005-01-01",
+    "roller": [
+      {
+        "fodselsnr": "010176100000",
+        "rolle": "KOMP",
+        "fornavn": "Navn",
+        "slektsnavn": "Navnesen",
+        "adresse1": "Navneveien 12",
+        "postnr": "0576",
+        "poststed": "OSLO",
+        "fratraadt": false
+      }
+    ]
+  },
+  "deltakere": {
+    "registringsDato": "2003-01-01",
+    "roller": [
+      {
+        "fodselsnr": "010176100000",
+        "rolle": "DTPR",
+        "fornavn": "Navn",
+        "slektsnavn": "Navnesen",
+        "adresse1": "Navneveien 12",
+        "postnr": "0576",
+        "poststed": "OSLO",
+        "fratraadt": false
+      }
+    ]
+  }
+}

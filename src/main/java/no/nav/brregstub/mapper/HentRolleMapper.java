@@ -116,12 +116,15 @@ public class HentRolleMapper {
         rolle.setRolletype(to.getRolle().name());
 
         var person = new Samendring.Rolle.Person();
+        person.setBeskrivelse("Lever");
+        person.setStatuskode("L");
         person.setFodselsnr(to.getFodselsnr());
         person.setFornavn(to.getFornavn());
         person.setSlektsnavn(to.getSlektsnavn());
         person.setAdresse1(to.getAdresse1());
         person.setFratraadt(to.isFratraadt() ? "F" : "N");
         person.setPoststed(to.getPoststed());
+        person.setPostnr((to.getPostnr()));
         var land = new Samendring.Rolle.Person.Land();
         land.setLandkode4("NOR");
         land.setValue("Norge");

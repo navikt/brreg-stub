@@ -1,4 +1,4 @@
-package no.nav.brregstub.endpoint;
+package no.nav.brregstub.endpoint.ws;
 
 import no.nav.brregstub.ApplicationConfig;
 import no.nav.brregstub.tjenestekontrakter.ws.ErFr;

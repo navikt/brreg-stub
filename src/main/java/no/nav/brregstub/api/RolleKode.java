@@ -22,7 +22,6 @@ public enum RolleKode {
     OBS("Observatør"),
     REGN("Regnskapsfører"),
     STYR("Styre"),
-    L("Lever"),
     SAM("Sameiere");
 
     private final String beskrivelse;
