@@ -10,8 +10,8 @@ public enum RolleKode {
     BOBE("Bostyrer"),
     DAGL("Daglig leder/ adm direktør"),
     DELT("Deltakere"),
-    DTPR("Deltaker med proratarisk ansvar (delt ansvar)"),
-    DTSO("Deltaker med solidarisk ansvar (fullt ansvarlig)"),
+    DTPR("Deltaker med delt ansvar"),
+    DTSO("Deltaker med fullt ansvar"),
     FFØR("Forretningsfører"),
     INNH("Innehaver"),
     KOMP("Komplementar"),
@@ -20,9 +20,12 @@ public enum RolleKode {
     MEDL("Styremedlem"),
     NEST("Nestleder"),
     OBS("Observatør"),
+    PROK("Prokura"),
     REGN("Regnskapsfører"),
+    REPR("Norsk repr. for utenl. enhet"),
+    SIGN("Signatur"),
     STYR("Styre"),
-    SAM("Sameiere");
-
+    SAM("Sameiere"),
+    VARA("Varamedlem");
     private final String beskrivelse;
 }
