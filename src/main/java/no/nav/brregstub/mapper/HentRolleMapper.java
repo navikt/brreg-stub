@@ -10,7 +10,6 @@ import no.nav.brregstub.tjenestekontrakter.hentroller.Grunndata.Melding;
 import no.nav.brregstub.tjenestekontrakter.hentroller.Grunndata.Melding.Eierkommune.Samendring;
 import no.nav.brregstub.tjenestekontrakter.hentroller.Grunndata.ResponseHeader;
 import no.nav.brregstub.tjenestekontrakter.hentroller.Grunndata.ResponseHeader.UnderStatus.UnderStatusMelding;
-import org.springframework.stereotype.Component;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -112,8 +111,8 @@ public class HentRolleMapper {
 
     private static Samendring.Rolle mapTilSamendringRolle(PersonOgRolleTo to) {
         var rolle = new Samendring.Rolle();
-        rolle.setBeskrivelse(to.getRolle().getBeskrivelse());
-        rolle.setRolletype(to.getRolle().name());
+        rolle.setBeskrivelse(to.getRollebeskrivelse());
+        rolle.setRolletype(to.getRolle());
 
         var person = new Samendring.Rolle.Person();
         person.setBeskrivelse("Lever");

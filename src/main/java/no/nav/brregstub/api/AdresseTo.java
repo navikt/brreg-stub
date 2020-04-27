@@ -21,12 +21,8 @@ public class AdresseTo {
     private String postnr;
     @ApiModelProperty(example = "Oslo", required = true)
     private String poststed;
-    @ApiModelProperty(example = "Norge", required = true)
-    private String land;
     @ApiModelProperty(example = "NO", required = true)
     private String landKode;
-    @ApiModelProperty(example = "Oslo", value = "Påkrevd for roller")
-    private String kommune;
     @ApiModelProperty(example = "0301", value = "Påkrevd for roller")
     private String kommunenr;
 

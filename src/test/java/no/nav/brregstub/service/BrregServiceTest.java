@@ -216,7 +216,7 @@ public class BrregServiceTest {
         assertThat(grunndata.getMelding().getRolleInnehaver().getAdresse().getAdresse1()).isEqualTo("Dollyveien 1");
         assertThat(grunndata.getMelding().getRolleInnehaver().getAdresse().getPostnr()).isEqualTo("0576");
         assertThat(grunndata.getMelding().getRolleInnehaver().getAdresse().getPoststed()).isEqualTo("Oslo");
-        assertThat(grunndata.getMelding().getRolleInnehaver().getAdresse().getLand().getValue()).isEqualTo("Norge");
+        assertThat(grunndata.getMelding().getRolleInnehaver().getAdresse().getLand().getValue()).isEqualTo("NO");
         assertThat(grunndata.getMelding().getRolleInnehaver().getAdresse().getLand().getLandkode1()).isEqualTo("NO");
 
 
@@ -231,7 +231,7 @@ public class BrregServiceTest {
         assertThat(rolle1.getAdresse().getForretningsAdresse().getAdresse1()).isEqualTo("Dollyveien 1");
         assertThat(rolle1.getAdresse().getForretningsAdresse().getPostnr()).isEqualTo("0576");
         assertThat(rolle1.getAdresse().getForretningsAdresse().getPoststed()).isEqualTo("Oslo");
-        assertThat(rolle1.getAdresse().getForretningsAdresse().getLand().getValue()).isEqualTo("Norge");
+        assertThat(rolle1.getAdresse().getForretningsAdresse().getLand().getValue()).isEqualTo("NO");
         assertThat(rolle1.getAdresse().getPostAdresse().getAdresse1()).isEqualTo("Postadresseveien 1");
     }
 

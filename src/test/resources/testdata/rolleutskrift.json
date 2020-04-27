@@ -9,15 +9,13 @@
     "adresse1": "Dollyveien 1",
     "postnr": "0576",
     "poststed": "Oslo",
-    "land": "Norge",
     "landKode": "NO",
-    "kommune": "Oslo",
     "kommunenr": "0301"
   },
   "enheter": [
     {
       "registreringsdato": "2020-01-01",
-      "rollekode": "INNH",
+      "rollebeskrivelse": "Innehaver",
       "orgNr": 971524553,
       "foretaksNavn": {
         "navn1": "Jovial AS"
@@ -26,24 +24,20 @@
         "adresse1": "Dollyveien 1",
         "postnr": "0576",
         "poststed": "Oslo",
-        "land": "Norge",
         "landKode": "NO",
-        "kommune": "Oslo",
         "kommunenr": "0301"
       },
       "postAdresse": {
         "adresse1": "Postadresseveien 1",
         "postnr": "0576",
         "poststed": "Oslo",
-        "land": "Norge",
         "landKode": "NO",
-        "kommune": "Oslo",
         "kommunenr": "0301"
       }
     },
     {
       "registreringsdato": "2020-04-01",
-      "rollekode": "INNH",
+      "rollebeskrivelse": "Innehaver",
       "orgNr": 99665544,
       "foretaksNavn": {
         "navn1": "Jalla AS"
@@ -52,18 +46,14 @@
         "adresse1": "Dollyveien 1",
         "postnr": "0576",
         "poststed": "Oslo",
-        "land": "Norge",
         "landKode": "NO",
-        "kommune": "Oslo",
         "kommunenr": "0301"
       },
       "postAdresse": {
         "adresse1": "Postadresseveien 1",
         "postnr": "0576",
         "poststed": "Oslo",
-        "land": "Norge",
         "landKode": "NO",
-        "kommune": "Oslo",
         "kommunenr": "0301"
       }
     }

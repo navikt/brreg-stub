@@ -16,7 +16,6 @@ import no.nav.brregstub.tjenestekontrakter.rolleutskrift.Grunndata.ResponseHeade
 import no.nav.brregstub.tjenestekontrakter.rolleutskrift.Grunndata.ResponseHeader.UnderStatus;
 import no.nav.brregstub.tjenestekontrakter.rolleutskrift.Grunndata.ResponseHeader.UnderStatus.UnderStatusMelding;
 import no.nav.brregstub.tjenestekontrakter.rolleutskrift.NavnType;
-import org.springframework.stereotype.Component;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -76,7 +75,7 @@ public class RolleutskriftMapper {
             int count = 1;
             for (RolleTo enhetTo : to.getEnheter()) {
                 var enhet = new Enhet();
-                enhet.setRolleBeskrivelse(mapTilRollebeskrivelse(enhetTo.getRollekode().getBeskrivelse()));
+                enhet.setRolleBeskrivelse(mapTilRollebeskrivelse(enhetTo.getRollebeskrivelse()));
                 enhet.setNr(count);
                 count++;
                 enhet.setNavn(mapTilNavntype(enhetTo.getForetaksNavn()));
@@ -131,7 +130,7 @@ public class RolleutskriftMapper {
         adresse.setPoststed(to.getPoststed());
         var land = new AdresseType1.Land();
         land.setLandkode1(to.getLandKode());
-        land.setValue(to.getLand());
+        land.setValue(to.getLandKode());
         adresse.setLand(land);
         return adresse;
     }
@@ -144,12 +143,12 @@ public class RolleutskriftMapper {
         adresse.setPostnr(to.getPostnr());
         adresse.setPoststed(to.getPoststed());
         var kommune = new AdresseType2.Kommune();
-        kommune.setValue(to.getKommune());
+        kommune.setValue(to.getKommunenr());
         kommune.setKommnr(to.getKommunenr());
         adresse.setKommune(kommune);
         var land = new AdresseType2.Land();
         land.setLandkode1(to.getLandKode());
-        land.setValue(to.getLand());
+        land.setValue(to.getLandKode());
         adresse.setLand(land);
         return adresse;
     }

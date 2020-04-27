@@ -11,6 +11,7 @@
       {
         "fodselsnr": "010176100000",
         "rolle": "DAGL",
+        "rollebeskrivelse": "Daglig leder/ adm direktør",
         "fornavn": "Navn",
         "slektsnavn": "Navnesen",
         "adresse1": "Navneveien 12",
@@ -26,6 +27,7 @@
       {
         "fodselsnr": "010176100000",
         "rolle": "SAM",
+        "rollebeskrivelse": "Sameiere",
         "fornavn": "Navn",
         "slektsnavn": "Navnesen",
         "adresse1": "Navneveien 12",
@@ -41,6 +43,7 @@
       {
         "fodselsnr": "010176100000",
         "rolle": "LEDE",
+        "rollebeskrivelse": "Styrets leder",
         "fornavn": "Navn",
         "slektsnavn": "Navnesen",
         "adresse1": "Navneveien 12",
@@ -51,6 +54,7 @@
       {
         "fodselsnr": "010176100000",
         "rolle": "MEDL",
+        "rollebeskrivelse": "Styremedlem",
         "fornavn": "Navn",
         "slektsnavn": "Navnesen",
         "adresse1": "Navneveien 12",
@@ -66,6 +70,7 @@
       {
         "fodselsnr": "010176100000",
         "rolle": "KOMP",
+        "rollebeskrivelse": "Komplementar",
         "fornavn": "Navn",
         "slektsnavn": "Navnesen",
         "adresse1": "Navneveien 12",
@@ -81,6 +86,7 @@
       {
         "fodselsnr": "010176100000",
         "rolle": "DTPR",
+        "rollebeskrivelse": "Deltaker med delt ansvar",
         "fornavn": "Navn",
         "slektsnavn": "Navnesen",
         "adresse1": "Navneveien 12",
