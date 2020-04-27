@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("local")
@@ -80,9 +82,9 @@ public class HentRollerControllerTest {
         to.setHovedstatus(1);
 
         var response =
-                restTemplate.exchange(API_V_1_ROLLER, HttpMethod.POST, new HttpEntity<>(to), OrganisasjonTo.class);
+                restTemplate.exchange(API_V_1_ROLLER, HttpMethod.POST, new HttpEntity<>(to), Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(response.getBody().getOrgnr()).isEqualTo(to.getOrgnr());
+        assertThat(response.getBody().get("path")).isEqualTo("/api/v1/hentrolle/4");
 
     }
 }

@@ -68,7 +68,7 @@ public class BrregServiceTest {
 
 
     @Test
-    @DisplayName("hentRoller returnerer en gyldig grunndata med melding")
+    @DisplayName("hentRoller returnerer en gyldig respnseheader med melding")
     public void hentRollerForOrganisasjon() {
         var rolle = new HentRolle();
         rolle.setJson(classpathToString("testdata/hentRoller.json"));
@@ -100,6 +100,16 @@ public class BrregServiceTest {
                             .format(
                                     ISO_DATE)).isEqualTo("1999-03-12");
         assertThat(grunndata.getMelding().getOrganisasjonsnummer().getValue()).isEqualTo(ORGNR.toString());
+    }
+
+    @Test
+    @DisplayName("hentRoller returnerer en gyldig kontaktperson")
+    public void hentRollerForOrganisasjonKontaktpersoner() {
+        var rolle = new HentRolle();
+        rolle.setJson(classpathToString("testdata/hentRoller.json"));
+        when(hentRolleRepositoryMock.findByOrgnr(ORGNR)).thenReturn(Optional.of(rolle));
+
+        var grunndata = brregService.hentRoller(ORGNR.toString());
 
         //assert kontaktperson
         assertThat(grunndata.getMelding().getKontaktperson().getSamendring()).hasSize(1);
@@ -111,17 +121,16 @@ public class BrregServiceTest {
         assertThat(kontaktperson.getRolle().get(0).getBeskrivelse()).isEqualTo(RolleKode.DAGL.getBeskrivelse());
         assertThat(kontaktperson.getRolle().get(0).getRolletype()).isEqualTo(RolleKode.DAGL.name());
         assertPerson(kontaktperson.getRolle().get(0).getPerson().get(0));
+    }
 
-        //assert sameier
-        assertThat(grunndata.getMelding().getSameiere().getSamendring()).hasSize(1);
-        var sameier = grunndata.getMelding().getSameiere().getSamendring().get(0);
-        assertThat(sameier.getSamendringstype()).isEqualTo(RolleKode.SAM.name());
-        assertThat(sameier.getRegistreringsDato().toGregorianCalendar().toZonedDateTime().toLocalDate().format(
-                ISO_DATE)).isEqualTo("2004-01-01");
-        assertThat(sameier.getRolle()).hasSize(1);
-        assertThat(sameier.getRolle().get(0).getBeskrivelse()).isEqualTo(RolleKode.SAM.getBeskrivelse());
-        assertThat(sameier.getRolle().get(0).getRolletype()).isEqualTo(RolleKode.SAM.name());
-        assertPerson(sameier.getRolle().get(0).getPerson().get(0));
+    @Test
+    @DisplayName("hentRoller returnerer en gyldig deltaker")
+    public void hentRollerForOrganisasjonDeltaker() {
+        var rolle = new HentRolle();
+        rolle.setJson(classpathToString("testdata/hentRoller.json"));
+        when(hentRolleRepositoryMock.findByOrgnr(ORGNR)).thenReturn(Optional.of(rolle));
+
+        var grunndata = brregService.hentRoller(ORGNR.toString());
 
         //assert deltaker
         assertThat(grunndata.getMelding().getDeltakere().getSamendring()).hasSize(1);
@@ -134,16 +143,16 @@ public class BrregServiceTest {
         assertThat(deltaker.getRolle().get(0).getRolletype()).isEqualTo(RolleKode.DTPR.name());
         assertPerson(deltaker.getRolle().get(0).getPerson().get(0));
 
-        //assert komplementar
-        assertThat(grunndata.getMelding().getKomplementar().getSamendring()).hasSize(1);
-        var komplementar = grunndata.getMelding().getKomplementar().getSamendring().get(0);
-        assertThat(komplementar.getSamendringstype()).isEqualTo(RolleKode.KOMP.name());
-        assertThat(komplementar.getRegistreringsDato().toGregorianCalendar().toZonedDateTime().toLocalDate().format(
-                ISO_DATE)).isEqualTo("2005-01-01");
-        assertThat(komplementar.getRolle()).hasSize(1);
-        assertThat(komplementar.getRolle().get(0).getBeskrivelse()).isEqualTo(RolleKode.KOMP.getBeskrivelse());
-        assertThat(komplementar.getRolle().get(0).getRolletype()).isEqualTo(RolleKode.KOMP.name());
-        assertPerson(komplementar.getRolle().get(0).getPerson().get(0));
+    }
+
+    @Test
+    @DisplayName("hentRoller returnerer en gyldig styre")
+    public void hentRollerForOrganisasjonStyre() {
+        var rolle = new HentRolle();
+        rolle.setJson(classpathToString("testdata/hentRoller.json"));
+        when(hentRolleRepositoryMock.findByOrgnr(ORGNR)).thenReturn(Optional.of(rolle));
+
+        var grunndata = brregService.hentRoller(ORGNR.toString());
 
         //assert styreleder
         assertThat(grunndata.getMelding().getStyre().getSamendring()).hasSize(1);
@@ -157,6 +166,49 @@ public class BrregServiceTest {
         assertThat(styreleder.getRolle().get(1).getBeskrivelse()).isEqualTo(RolleKode.MEDL.getBeskrivelse());
         assertThat(styreleder.getRolle().get(1).getRolletype()).isEqualTo(RolleKode.MEDL.name());
         assertPerson(styreleder.getRolle().get(0).getPerson().get(0));
+    }
+
+    @Test
+    @DisplayName("hentRoller returnerer en gyldig komplementar")
+    public void hentRollerForOrganisasjonKomplementar() {
+        var rolle = new HentRolle();
+        rolle.setJson(classpathToString("testdata/hentRoller.json"));
+        when(hentRolleRepositoryMock.findByOrgnr(ORGNR)).thenReturn(Optional.of(rolle));
+
+        var grunndata = brregService.hentRoller(ORGNR.toString());
+
+        //assert komplementar
+        assertThat(grunndata.getMelding().getKomplementar().getSamendring()).hasSize(1);
+        var komplementar = grunndata.getMelding().getKomplementar().getSamendring().get(0);
+        assertThat(komplementar.getSamendringstype()).isEqualTo(RolleKode.KOMP.name());
+        assertThat(komplementar.getRegistreringsDato().toGregorianCalendar().toZonedDateTime().toLocalDate().format(
+                ISO_DATE)).isEqualTo("2005-01-01");
+        assertThat(komplementar.getRolle()).hasSize(1);
+        assertThat(komplementar.getRolle().get(0).getBeskrivelse()).isEqualTo(RolleKode.KOMP.getBeskrivelse());
+        assertThat(komplementar.getRolle().get(0).getRolletype()).isEqualTo(RolleKode.KOMP.name());
+        assertPerson(komplementar.getRolle().get(0).getPerson().get(0));
+
+    }
+
+    @Test
+    @DisplayName("hentRoller returnerer en gyldig sameiere")
+    public void hentRollerForOrganisasjonSameiere() {
+        var rolle = new HentRolle();
+        rolle.setJson(classpathToString("testdata/hentRoller.json"));
+        when(hentRolleRepositoryMock.findByOrgnr(ORGNR)).thenReturn(Optional.of(rolle));
+
+        var grunndata = brregService.hentRoller(ORGNR.toString());
+
+        //assert sameier
+        assertThat(grunndata.getMelding().getSameiere().getSamendring()).hasSize(1);
+        var sameier = grunndata.getMelding().getSameiere().getSamendring().get(0);
+        assertThat(sameier.getSamendringstype()).isEqualTo(RolleKode.SAM.name());
+        assertThat(sameier.getRegistreringsDato().toGregorianCalendar().toZonedDateTime().toLocalDate().format(
+                ISO_DATE)).isEqualTo("2004-01-01");
+        assertThat(sameier.getRolle()).hasSize(1);
+        assertThat(sameier.getRolle().get(0).getBeskrivelse()).isEqualTo(RolleKode.SAM.getBeskrivelse());
+        assertThat(sameier.getRolle().get(0).getRolletype()).isEqualTo(RolleKode.SAM.name());
+        assertPerson(sameier.getRolle().get(0).getPerson().get(0));
     }
 
     @Test
@@ -180,8 +232,8 @@ public class BrregServiceTest {
     }
 
     @Test
-    @DisplayName("rolleutskrift returnerer en gyldig grunndata med melding")
-    public void hentRolleutskriftForPerson() {
+    @DisplayName("rolleutskrift returnerer en gyldig responseheader med status 0")
+    public void hentRolleutskriftForPersonResponseHeader() {
         var rolleutskrift = new Rolleutskrift();
         rolleutskrift.setJson(classpathToString("testdata/rolleutskrift.json"));
         when(rolleutskriftRepositoryMock.findByIdent(FNR)).thenReturn(Optional.of(rolleutskrift));
@@ -200,6 +252,16 @@ public class BrregServiceTest {
                             .toLocalDate()).isEqualTo((LocalDate.now()));
         assertThat(grunndata.getResponseHeader().getUnderStatus().getUnderStatusMelding())
                 .hasSize(2).extracting("kode").contains(0, 1180);
+    }
+
+    @Test
+    @DisplayName("rolleutskrift returnerer en gyldig meldiong")
+    public void hentRolleutskriftForPersonMelding() {
+        var rolleutskrift = new Rolleutskrift();
+        rolleutskrift.setJson(classpathToString("testdata/rolleutskrift.json"));
+        when(rolleutskriftRepositoryMock.findByIdent(FNR)).thenReturn(Optional.of(rolleutskrift));
+
+        var grunndata = brregService.hentRolleutskrift(FNR);
 
         //assert melding
         assertThat(grunndata.getMelding()).isNotNull();
@@ -218,7 +280,16 @@ public class BrregServiceTest {
         assertThat(grunndata.getMelding().getRolleInnehaver().getAdresse().getPoststed()).isEqualTo("Oslo");
         assertThat(grunndata.getMelding().getRolleInnehaver().getAdresse().getLand().getValue()).isEqualTo("NO");
         assertThat(grunndata.getMelding().getRolleInnehaver().getAdresse().getLand().getLandkode1()).isEqualTo("NO");
+    }
 
+    @Test
+    @DisplayName("rolleutskrift returnerer en gyldig grunndata med roller")
+    public void hentRolleutskriftForPersonRoller() {
+        var rolleutskrift = new Rolleutskrift();
+        rolleutskrift.setJson(classpathToString("testdata/rolleutskrift.json"));
+        when(rolleutskriftRepositoryMock.findByIdent(FNR)).thenReturn(Optional.of(rolleutskrift));
+
+        var grunndata = brregService.hentRolleutskrift(FNR);
 
         //assert roller
         assertThat(grunndata.getMelding().getRoller().getEnhet()).hasSize(2);

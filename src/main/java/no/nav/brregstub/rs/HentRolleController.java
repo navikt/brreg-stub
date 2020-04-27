@@ -12,21 +12,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Validated
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/hentrolle")
+@RequestMapping(HentRolleController.API_V_1_HENTROLLE)
 @AllArgsConstructor
 public class HentRolleController {
 
+    public static final String API_V_1_HENTROLLE = "/api/v1/hentrolle";
     private final HentRolleService service;
 
 
     @PostMapping
-    public ResponseEntity<OrganisasjonTo> lagreEllerOppdaterHentRolleStub(@RequestBody OrganisasjonTo request) {
+    public ResponseEntity<Map> lagreEllerOppdaterHentRolleStub(@RequestBody OrganisasjonTo request) {
         var organisasjonTo = service.lagreEllerOppdaterDataForHentRolle(request)
                                     .orElseThrow(() -> new CouldNotCreateStubException(""));
-        return ResponseEntity.status(HttpStatus.CREATED).body(organisasjonTo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("path",API_V_1_HENTROLLE + "/" + request.getOrgnr()));
     }
 
     @GetMapping("/{orgnr}")

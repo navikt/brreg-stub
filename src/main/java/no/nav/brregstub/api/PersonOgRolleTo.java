@@ -17,6 +17,7 @@ public class PersonOgRolleTo {
     private String fodselsnr;
     @ApiModelProperty(dataType = "java.lang.String", example = "DAGL", required = true)
     private String rolle;
+    @ApiModelProperty(dataType = "java.lang.String", example = "Daglig leder/ adm direktør", required = true)
     private String rollebeskrivelse;
     @ApiModelProperty(dataType = "java.lang.String", example = "Navn")
     private String fornavn;
