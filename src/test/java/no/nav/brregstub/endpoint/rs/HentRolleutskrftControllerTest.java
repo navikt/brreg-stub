@@ -1,6 +1,9 @@
 package no.nav.brregstub.endpoint.rs;
 
 import no.nav.brregstub.ApplicationConfig;
+import no.nav.brregstub.api.AdresseTo;
+import no.nav.brregstub.api.NavnTo;
+import no.nav.brregstub.api.RolleTo;
 import no.nav.brregstub.api.RolleutskriftTo;
 import no.nav.brregstub.database.domene.Rolleutskrift;
 import no.nav.brregstub.database.repository.RolleutskriftRepository;
@@ -83,6 +86,14 @@ public class HentRolleutskrftControllerTest {
         var to = new RolleutskriftTo();
         to.setFnr("ny");
         to.setHovedstatus(1);
+        var navntTo = new NavnTo();
+        navntTo.setNavn1("Navn");
+        to.setNavn(navntTo);
+        var adresseTo = new AdresseTo();
+        adresseTo.setAdresse1("Adresse 1");
+        to.setAdresse(adresseTo);
+        var enhet = new RolleTo();
+        to.getEnheter().add(enhet);
 
         var response =
                 restTemplate.exchange(API_V_1_ROLLEUTSKRIFT, HttpMethod.POST, createHttpEntity("ny", to), RolleutskriftTo.class);

@@ -12,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 @Validated
 @Slf4j
 @RestController
@@ -23,14 +26,14 @@ public class HentRolleutskriftController {
 
 
     @PostMapping
-    public ResponseEntity<RolleutskriftTo> opprettGrunndata(@RequestBody RolleutskriftTo rolleinnhaver) {
+    public ResponseEntity<RolleutskriftTo> opprettGrunndata(@Valid @RequestBody RolleutskriftTo rolleinnhaver) {
         var grunndata = service.opprettRolleutskriftGrunndata(rolleinnhaver)
                                .orElseThrow(() -> new CouldNotCreateStubException(""));
         return ResponseEntity.status(HttpStatus.CREATED).body(grunndata);
     }
 
     @GetMapping
-    public ResponseEntity<RolleutskriftTo> hentGrunndata(@RequestHeader(name = "Nav-Personident") String ident) {
+    public ResponseEntity<RolleutskriftTo> hentGrunndata(@NotNull @RequestHeader(name = "Nav-Personident") String ident) {
         var grunndata = service.hentRolleinnhaverTo(ident)
                                .orElseThrow(() -> new NotFoundException(String.format("Kunne ikke finne person med fnr:%s",
                                                                                            ident)));
@@ -38,7 +41,7 @@ public class HentRolleutskriftController {
     }
 
     @DeleteMapping
-    public ResponseEntity deleteGrunndata(@RequestHeader(name = "Nav-Personident") String ident) {
+    public ResponseEntity deleteGrunndata(@NotNull @RequestHeader(name = "Nav-Personident") String ident) {
         service.slettRolleutskriftGrunndata(ident);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

@@ -1,6 +1,7 @@
 package no.nav.brregstub.endpoint.rs;
 
 import no.nav.brregstub.ApplicationConfig;
+import no.nav.brregstub.api.NavnTo;
 import no.nav.brregstub.api.OrganisasjonTo;
 import no.nav.brregstub.database.domene.HentRolle;
 import no.nav.brregstub.database.repository.HentRolleRepository;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -79,7 +81,8 @@ public class HentRollerControllerTest {
     public void skalLagreRequestIDatabase() {
         var to = new OrganisasjonTo();
         to.setOrgnr(4);
-        to.setHovedstatus(1);
+        to.setRegistreringsdato(LocalDate.now());
+
 
         var response =
                 restTemplate.exchange(API_V_1_ROLLER, HttpMethod.POST, new HttpEntity<>(to), Map.class);
