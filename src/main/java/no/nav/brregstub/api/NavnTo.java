@@ -16,7 +16,9 @@ import javax.validation.constraints.NotBlank;
 public class NavnTo {
 
     @ApiModelProperty(example = "Navn", required = true)
-    @NotBlank private String navn1;
+    @NotBlank
+    private String navn1;
+    @ApiModelProperty(example = "")
     private String navn2;
     @ApiModelProperty(example = "Navnesen")
     private String navn3;

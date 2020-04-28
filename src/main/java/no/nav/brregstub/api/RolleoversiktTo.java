@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RolleutskriftTo {
+public class RolleoversiktTo {
 
     @ApiModelProperty(dataType = "java.lang.String", example = "010176100000", required = true)
     @NotBlank private String fnr;
@@ -35,7 +35,9 @@ public class RolleutskriftTo {
     @Valid
     private AdresseTo adresse;
 
-    @NotEmpty private List<RolleTo> enheter = new LinkedList<>();
+    @Valid
+    @NotEmpty
+    private List<RolleTo> enheter = new LinkedList<>();
 
     @ApiModelProperty(example = "0", required = true)
     private Integer hovedstatus = 0;

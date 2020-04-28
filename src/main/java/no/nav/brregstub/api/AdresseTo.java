@@ -14,12 +14,10 @@ public class AdresseTo {
     @NotBlank private String adresse1;
     private String adresse2;
     private String adresse3;
-    @ApiModelProperty(example = "0576", required = true)
     private String postnr;
-    @ApiModelProperty(example = "Oslo", required = true)
     private String poststed;
     @ApiModelProperty(example = "NO", required = true)
-    private String landKode;
+    @NotBlank private String landKode;
     @ApiModelProperty(example = "0301", value = "Påkrevd for roller")
     private String kommunenr;
 

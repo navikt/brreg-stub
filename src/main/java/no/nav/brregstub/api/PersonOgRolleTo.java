@@ -36,16 +36,10 @@ public class PersonOgRolleTo {
     @NotBlank
     private String slektsnavn;
 
-    @ApiModelProperty(dataType = "java.lang.String", example = "Dollyveien 1")
-    @NotBlank
     private String adresse1;
 
-    @ApiModelProperty(dataType = "java.lang.String", example = "0576")
-    @NotBlank
     private String postnr;
 
-    @ApiModelProperty(dataType = "java.lang.String", example = "Oslo")
-    @NotBlank
     private String poststed;
     @ApiModelProperty(example = "false", required = true)
     private boolean fratraadt;

@@ -1,7 +1,6 @@
 package no.nav.brregstub.endpoint.rs;
 
 import no.nav.brregstub.ApplicationConfig;
-import no.nav.brregstub.api.NavnTo;
 import no.nav.brregstub.api.OrganisasjonTo;
 import no.nav.brregstub.database.domene.HentRolle;
 import no.nav.brregstub.database.repository.HentRolleRepository;
@@ -60,7 +59,7 @@ public class HentRollerControllerTest {
 
 
     @Test
-    @DisplayName("DELETE rolleutskrift skal slette rolleutskrift")
+    @DisplayName("DELETE rolle skal slettes fra database")
     public void skalSletteRolleutskrift() {
         var rolleSomSkalSlettes = new HentRolle();
         rolleSomSkalSlettes.setOrgnr(3);
@@ -77,7 +76,7 @@ public class HentRollerControllerTest {
 
 
     @Test
-    @DisplayName("POST rolleutskrift skal opprette ny rolleutskrift")
+    @DisplayName("POST rolle skal opprette ny databaseinnslag")
     public void skalLagreRequestIDatabase() {
         var to = new OrganisasjonTo();
         to.setOrgnr(4);
@@ -88,6 +87,17 @@ public class HentRollerControllerTest {
                 restTemplate.exchange(API_V_1_ROLLER, HttpMethod.POST, new HttpEntity<>(to), Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody().get("path")).isEqualTo("/api/v1/hentrolle/4");
+
+    }
+
+    @Test
+    @DisplayName("POST rolle returnere bad request ved manglende feilt")
+    public void skalReturnereBadRequestVedValideringsFeil() {
+        var to = new OrganisasjonTo();
+
+        var response =
+                restTemplate.exchange(API_V_1_ROLLER, HttpMethod.POST, new HttpEntity<>(to), Map.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
     }
 }
