@@ -35,7 +35,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .ignoredParameterTypes(ApiIgnore.class)
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/api/**"))
+                .paths(PathSelectors.ant("/api/v1/**"))
                 .build()
                 .apiInfo(apiInfo())
                 .produces(contentTypeJson)

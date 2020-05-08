@@ -20,7 +20,7 @@ public class RsRolle {
     private LocalDate registreringsdato;
 
     @ApiModelProperty(dataType = "java.lang.String", example = "INNH", required = true)
-    @NotBlank
+    @NotNull
     private RolleKode rolle;
 
     @ApiModelProperty(example = "998877665", required = true)
