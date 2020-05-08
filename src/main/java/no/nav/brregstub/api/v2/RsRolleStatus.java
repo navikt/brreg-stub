@@ -12,7 +12,7 @@ import no.nav.brregstub.api.Egenskap;
 @NoArgsConstructor
 public class RsRolleStatus {
 
-    @ApiModelProperty(dataType = "java.lang.Enum", example = "Deltaker", required = true)
+    @ApiModelProperty(dataType = "java.lang.String", example = "Deltaker", required = true)
     @NotBlank
     private Egenskap egenskap;
 
