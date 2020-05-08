@@ -1,20 +1,20 @@
 package no.nav.brregstub.api.v2;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
 import no.nav.brregstub.api.Egenskap;
 
-@Data
+@Getter
 @NoArgsConstructor
 public class RsRolleStatus {
 
     @ApiModelProperty(dataType = "java.lang.Enum", example = "Deltaker", required = true)
     @NotBlank
-    private Egenskap rolle;
+    private Egenskap egenskap;
 
     @ApiModelProperty(example = "false", required = true)
     private boolean fratraadt;

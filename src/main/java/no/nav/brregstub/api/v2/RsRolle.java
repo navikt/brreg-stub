@@ -21,7 +21,7 @@ public class RsRolle {
 
     @ApiModelProperty(dataType = "java.lang.Enum", example = "INNH", required = true)
     @NotBlank
-    private RolleKode rollebeskrivelse;
+    private RolleKode rolle;
 
     @ApiModelProperty(example = "998877665", required = true)
     @NotNull

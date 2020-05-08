@@ -158,7 +158,7 @@ public class RolleoversiktMapper {
             int count = 1;
             for (RsRolle rsRolle : rsRolleoversikt.getEnheter()) {
                 var enhet = new Enhet();
-                enhet.setRolleBeskrivelse(mapTilRollebeskrivelse(rsRolle.getRollebeskrivelse()));
+                enhet.setRolleBeskrivelse(mapTilRollebeskrivelse(rsRolle.getRolle()));
                 enhet.setNr(count);
                 count++;
                 enhet.setNavn(mapTilNavntype(rsRolle.getForetaksNavn()));
