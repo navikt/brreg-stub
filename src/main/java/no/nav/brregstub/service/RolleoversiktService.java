@@ -3,14 +3,15 @@ package no.nav.brregstub.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
 import no.nav.brregstub.api.v1.RolleoversiktTo;
 import no.nav.brregstub.api.v2.RsRolleoversikt;
 import no.nav.brregstub.database.domene.Rolleoversikt;
 import no.nav.brregstub.database.repository.RolleoversiktRepository;
 import no.nav.brregstub.mapper.RolleoversiktMapper;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,15 +22,15 @@ public class RolleoversiktService {
     private final ObjectMapper objectMapper;
 
     @SneakyThrows
-    public Optional<RolleoversiktTo> opprettRolleoversikt(RolleoversiktTo rolleoversiktTo) {
+    public Optional<RolleoversiktTo> opprettRolleoversiktV1(RolleoversiktTo rolleoversiktTo) {
         RolleoversiktMapper.map(rolleoversiktTo); //Sjekker om object kan mappes
 
         var rolleoversikt = rolleoversiktRepository.findByIdent(rolleoversiktTo.getFnr())
-                                                   .orElseGet(() -> {
-                                                       var rolleutskrift = new Rolleoversikt();
-                                                       rolleutskrift.setIdent(rolleoversiktTo.getFnr());
-                                                       return rolleutskrift;
-                                                   });
+                .orElseGet(() -> {
+                    var rolleutskrift = new Rolleoversikt();
+                    rolleutskrift.setIdent(rolleoversiktTo.getFnr());
+                    return rolleutskrift;
+                });
 
         rolleoversikt.setJson(objectMapper.writeValueAsString(rolleoversiktTo));
 
@@ -38,7 +39,7 @@ public class RolleoversiktService {
     }
 
     @SneakyThrows
-    public Optional<RsRolleoversikt> opprettRolleoversikt(RsRolleoversikt rsRolleoversikt) {
+    public Optional<RsRolleoversikt> opprettRolleoversiktV2(RsRolleoversikt rsRolleoversikt) {
         RolleoversiktMapper.map(rsRolleoversikt); //Sjekker om object kan mappes
 
         var rolleoversikt = rolleoversiktRepository.findByIdent(rsRolleoversikt.getFnr())
@@ -55,7 +56,7 @@ public class RolleoversiktService {
     }
 
     @SneakyThrows
-    public Optional<RolleoversiktTo> hentRolleoversikt(String ident) {
+    public Optional<RolleoversiktTo> hentRolleoversiktV1(String ident) {
         var rolleoversikt = rolleoversiktRepository.findByIdent(ident);
 
         if (rolleoversikt.isPresent()) {
@@ -66,7 +67,7 @@ public class RolleoversiktService {
     }
 
     @SneakyThrows
-    public Optional<RsRolleoversikt> hentRsRolleoversikt(String ident) {
+    public Optional<RsRolleoversikt> hentRolleoversiktV2(String ident) {
         var rolleoversikt = rolleoversiktRepository.findByIdent(ident);
 
         if (rolleoversikt.isPresent()) {

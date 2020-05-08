@@ -3,7 +3,7 @@ package no.nav.brregstub.mapper;
 import lombok.SneakyThrows;
 import no.nav.brregstub.api.v1.OrganisasjonTo;
 import no.nav.brregstub.api.v1.PersonOgRolleTo;
-import no.nav.brregstub.api.RolleKode;
+import no.nav.brregstub.api.common.RolleKode;
 import no.nav.brregstub.api.v1.SamendringTo;
 import no.nav.brregstub.tjenestekontrakter.hentroller.Grunndata;
 import no.nav.brregstub.tjenestekontrakter.hentroller.Grunndata.Melding;
@@ -16,7 +16,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.time.LocalDate;
 
 import static java.time.format.DateTimeFormatter.ISO_DATE;
-import static no.nav.brregstub.api.UnderstatusKode.understatusKoder;
+import static no.nav.brregstub.api.common.UnderstatusKode.understatusKoder;
 
 public class HentRolleMapper {
 

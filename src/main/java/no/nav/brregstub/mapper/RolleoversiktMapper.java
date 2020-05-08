@@ -1,14 +1,19 @@
 package no.nav.brregstub.mapper;
 
+import static java.time.format.DateTimeFormatter.ISO_DATE;
+import static no.nav.brregstub.api.common.UnderstatusKode.understatusKoder;
+
 import lombok.SneakyThrows;
 
-import no.nav.brregstub.api.RolleKode;
-import no.nav.brregstub.api.v1.AdresseTo;
-import no.nav.brregstub.api.v1.NavnTo;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.time.LocalDate;
+
+import no.nav.brregstub.api.common.RolleKode;
+import no.nav.brregstub.api.common.RsAdresse;
+import no.nav.brregstub.api.common.RsNavn;
 import no.nav.brregstub.api.v1.RolleTo;
 import no.nav.brregstub.api.v1.RolleoversiktTo;
-import no.nav.brregstub.api.v2.RsAdresse;
-import no.nav.brregstub.api.v2.RsNavn;
 import no.nav.brregstub.api.v2.RsRolle;
 import no.nav.brregstub.api.v2.RsRolleoversikt;
 import no.nav.brregstub.tjenestekontrakter.rolleutskrift.AdresseType1;
@@ -23,15 +28,7 @@ import no.nav.brregstub.tjenestekontrakter.rolleutskrift.Grunndata.ResponseHeade
 import no.nav.brregstub.tjenestekontrakter.rolleutskrift.Grunndata.ResponseHeader.UnderStatus.UnderStatusMelding;
 import no.nav.brregstub.tjenestekontrakter.rolleutskrift.NavnType;
 
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-import java.time.LocalDate;
-
-import static java.time.format.DateTimeFormatter.ISO_DATE;
-import static no.nav.brregstub.api.UnderstatusKode.understatusKoder;
-
 public class RolleoversiktMapper {
-
 
     public static final String TJENESTE_NAVN = "hentRolleutskrift";
 
@@ -191,14 +188,6 @@ public class RolleoversiktMapper {
         return orgnr;
     }
 
-    public static NavnType mapTilNavntype(NavnTo to) {
-        var navn = new NavnType();
-        navn.setNavn1(to.getNavn1());
-        navn.setNavn2(to.getNavn2());
-        navn.setNavn3(to.getNavn3());
-        return navn;
-    }
-
     public static NavnType mapTilNavntype(RsNavn rsNavn) {
         var navn = new NavnType();
         navn.setNavn1(rsNavn.getNavn1());
@@ -227,24 +216,6 @@ public class RolleoversiktMapper {
         return rolleInnehaver;
     }
 
-
-    private static AdresseType1 mapTilAdresse(AdresseTo to) {
-        if (to == null) {
-            return null;
-        }
-        var adresse = new AdresseType1();
-        adresse.setAdresse1(to.getAdresse1());
-        adresse.setAdresse2(to.getAdresse2());
-        adresse.setAdresse3(to.getAdresse3());
-        adresse.setPostnr(to.getPostnr());
-        adresse.setPoststed(to.getPoststed());
-        var land = new AdresseType1.Land();
-        land.setLandkode1(to.getLandKode());
-        land.setValue(to.getLandKode());
-        adresse.setLand(land);
-        return adresse;
-    }
-
     private static AdresseType1 mapTilAdresse(RsAdresse rsAdresse) {
         if (rsAdresse == null) {
             return null;
@@ -258,27 +229,6 @@ public class RolleoversiktMapper {
         var land = new AdresseType1.Land();
         land.setLandkode1(rsAdresse.getLandKode());
         land.setValue(rsAdresse.getLandKode());
-        adresse.setLand(land);
-        return adresse;
-    }
-
-    private static AdresseType2 mapTilAdresse2(AdresseTo to) {
-        if (to == null) {
-            return null;
-        }
-        var adresse = new AdresseType2();
-        adresse.setAdresse1(to.getAdresse1());
-        adresse.setAdresse2(to.getAdresse2());
-        adresse.setAdresse3(to.getAdresse3());
-        adresse.setPostnr(to.getPostnr());
-        adresse.setPoststed(to.getPoststed());
-        var kommune = new AdresseType2.Kommune();
-        kommune.setValue(to.getKommunenr());
-        kommune.setKommnr(to.getKommunenr());
-        adresse.setKommune(kommune);
-        var land = new AdresseType2.Land();
-        land.setLandkode1(to.getLandKode());
-        land.setValue(to.getLandKode());
         adresse.setLand(land);
         return adresse;
     }

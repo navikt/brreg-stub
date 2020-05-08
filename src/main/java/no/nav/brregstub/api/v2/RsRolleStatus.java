@@ -1,14 +1,14 @@
 package no.nav.brregstub.api.v2;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
-import no.nav.brregstub.api.Egenskap;
+import no.nav.brregstub.api.common.Egenskap;
 
-@Getter
+@Data
 @NoArgsConstructor
 public class RsRolleStatus {
 

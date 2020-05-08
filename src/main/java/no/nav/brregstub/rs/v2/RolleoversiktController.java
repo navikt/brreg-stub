@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import no.nav.brregstub.api.v1.RolleoversiktTo;
 import no.nav.brregstub.api.v2.RsRolleoversikt;
 import no.nav.brregstub.exception.CouldNotCreateStubException;
 import no.nav.brregstub.exception.NotFoundException;
@@ -31,19 +30,17 @@ public class RolleoversiktController {
 
     private final RolleoversiktService service;
 
-
     @PostMapping
     public ResponseEntity<RsRolleoversikt> lagreEllerOppdaterRolleoversikt(@Valid @RequestBody RsRolleoversikt rolleoversikt) {
-        var grunndata = service.opprettRolleoversikt(rolleoversikt)
-                               .orElseThrow(() -> new CouldNotCreateStubException("Kunne ikke opprette rolleoversikt"));
+        var grunndata = service.opprettRolleoversiktV2(rolleoversikt)
+                .orElseThrow(() -> new CouldNotCreateStubException("Kunne ikke opprette rolleoversikt"));
         return ResponseEntity.status(HttpStatus.CREATED).body(grunndata);
     }
 
     @GetMapping
     public ResponseEntity<RsRolleoversikt> hentRolleoversikt(@NotNull @RequestHeader(name = "Nav-Personident") String ident) {
-        var grunndata = service.hentRsRolleoversikt(ident)
-                               .orElseThrow(() -> new NotFoundException(String.format("Kunne ikke finne person med fnr:%s",
-                                                                                           ident)));
+        var grunndata = service.hentRolleoversiktV2(ident)
+                .orElseThrow(() -> new NotFoundException(String.format("Kunne ikke finne person med fnr:%s", ident)));
         return ResponseEntity.status(HttpStatus.OK).body(grunndata);
     }
 

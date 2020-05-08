@@ -1,4 +1,4 @@
-package no.nav.brregstub.api.v2;
+package no.nav.brregstub.api.common;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

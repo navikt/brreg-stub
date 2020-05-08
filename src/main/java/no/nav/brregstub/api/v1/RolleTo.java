@@ -1,6 +1,5 @@
 package no.nav.brregstub.api.v1;
 
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+
+import no.nav.brregstub.api.common.RsAdresse;
+import no.nav.brregstub.api.common.RsNavn;
 
 @Data
 @NoArgsConstructor
@@ -25,9 +27,9 @@ public class RolleTo {
     @NotNull
     private Integer orgNr;
 
-    private NavnTo foretaksNavn;
+    private RsNavn foretaksNavn;
 
-    private AdresseTo forretningsAdresse;
+    private RsAdresse forretningsAdresse;
 
-    private AdresseTo postAdresse;
+    private RsAdresse postAdresse;
 }

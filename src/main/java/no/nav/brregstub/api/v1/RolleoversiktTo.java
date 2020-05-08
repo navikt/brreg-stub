@@ -1,6 +1,5 @@
 package no.nav.brregstub.api.v1;
 
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +13,9 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
+
+import no.nav.brregstub.api.common.RsAdresse;
+import no.nav.brregstub.api.common.RsNavn;
 
 @Setter
 @Getter
@@ -29,11 +31,11 @@ public class RolleoversiktTo {
 
     @NotNull
     @Valid
-    private NavnTo navn;
+    private RsNavn navn;
 
     @NotNull
     @Valid
-    private AdresseTo adresse;
+    private RsAdresse adresse;
 
     @Valid
     @NotEmpty
