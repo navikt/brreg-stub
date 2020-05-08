@@ -1,5 +1,4 @@
-package no.nav.brregstub.api;
-
+package no.nav.brregstub.api.v2;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,10 +7,11 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class RolleTo {
+public class RsRolle {
 
     @ApiModelProperty(dataType = "java.lang.String", example = "2020-01-01")
     @NotNull
@@ -25,9 +25,11 @@ public class RolleTo {
     @NotNull
     private Integer orgNr;
 
-    private NavnTo foretaksNavn;
+    private RsNavn foretaksNavn;
 
-    private AdresseTo forretningsAdresse;
+    private RsAdresse forretningsAdresse;
 
-    private AdresseTo postAdresse;
+    private RsAdresse postAdresse;
+
+    private List<RsRolleStatus> personRolle;
 }

@@ -1,7 +1,7 @@
 package no.nav.brregstub.endpoint.rs;
 
 import no.nav.brregstub.ApplicationConfig;
-import no.nav.brregstub.api.OrganisasjonTo;
+import no.nav.brregstub.api.v1.OrganisasjonTo;
 import no.nav.brregstub.database.domene.HentRolle;
 import no.nav.brregstub.database.repository.HentRolleRepository;
 import org.junit.jupiter.api.DisplayName;

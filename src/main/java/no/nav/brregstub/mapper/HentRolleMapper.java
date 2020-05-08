@@ -1,10 +1,10 @@
 package no.nav.brregstub.mapper;
 
 import lombok.SneakyThrows;
-import no.nav.brregstub.api.OrganisasjonTo;
-import no.nav.brregstub.api.PersonOgRolleTo;
+import no.nav.brregstub.api.v1.OrganisasjonTo;
+import no.nav.brregstub.api.v1.PersonOgRolleTo;
 import no.nav.brregstub.api.RolleKode;
-import no.nav.brregstub.api.SamendringTo;
+import no.nav.brregstub.api.v1.SamendringTo;
 import no.nav.brregstub.tjenestekontrakter.hentroller.Grunndata;
 import no.nav.brregstub.tjenestekontrakter.hentroller.Grunndata.Melding;
 import no.nav.brregstub.tjenestekontrakter.hentroller.Grunndata.Melding.Eierkommune.Samendring;

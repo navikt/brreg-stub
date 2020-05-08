@@ -1,4 +1,4 @@
-package no.nav.brregstub.api;
+package no.nav.brregstub.api.v1;
 
 
 import io.swagger.annotations.ApiModelProperty;

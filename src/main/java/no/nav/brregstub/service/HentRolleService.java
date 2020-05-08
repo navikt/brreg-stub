@@ -3,7 +3,7 @@ package no.nav.brregstub.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import no.nav.brregstub.api.OrganisasjonTo;
+import no.nav.brregstub.api.v1.OrganisasjonTo;
 import no.nav.brregstub.database.domene.HentRolle;
 import no.nav.brregstub.database.repository.HentRolleRepository;
 import no.nav.brregstub.mapper.HentRolleMapper;

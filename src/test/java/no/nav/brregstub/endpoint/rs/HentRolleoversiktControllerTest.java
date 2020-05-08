@@ -1,10 +1,10 @@
 package no.nav.brregstub.endpoint.rs;
 
 import no.nav.brregstub.ApplicationConfig;
-import no.nav.brregstub.api.AdresseTo;
-import no.nav.brregstub.api.NavnTo;
-import no.nav.brregstub.api.RolleTo;
-import no.nav.brregstub.api.RolleoversiktTo;
+import no.nav.brregstub.api.v1.AdresseTo;
+import no.nav.brregstub.api.v1.NavnTo;
+import no.nav.brregstub.api.v1.RolleTo;
+import no.nav.brregstub.api.v1.RolleoversiktTo;
 import no.nav.brregstub.database.domene.Rolleoversikt;
 import no.nav.brregstub.database.repository.RolleoversiktRepository;
 import org.junit.jupiter.api.DisplayName;

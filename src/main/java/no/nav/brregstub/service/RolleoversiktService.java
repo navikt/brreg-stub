@@ -3,7 +3,8 @@ package no.nav.brregstub.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import no.nav.brregstub.api.RolleoversiktTo;
+import no.nav.brregstub.api.v1.RolleoversiktTo;
+import no.nav.brregstub.api.v2.RsRolleoversikt;
 import no.nav.brregstub.database.domene.Rolleoversikt;
 import no.nav.brregstub.database.repository.RolleoversiktRepository;
 import no.nav.brregstub.mapper.RolleoversiktMapper;
@@ -37,12 +38,40 @@ public class RolleoversiktService {
     }
 
     @SneakyThrows
+    public Optional<RsRolleoversikt> opprettRolleoversikt(RsRolleoversikt rsRolleoversikt) {
+        RolleoversiktMapper.map(rsRolleoversikt); //Sjekker om object kan mappes
+
+        var rolleoversikt = rolleoversiktRepository.findByIdent(rsRolleoversikt.getFnr())
+                .orElseGet(() -> {
+                    var rolleutskrift = new Rolleoversikt();
+                    rolleutskrift.setIdent(rsRolleoversikt.getFnr());
+                    return rolleutskrift;
+                });
+
+        rolleoversikt.setJson(objectMapper.writeValueAsString(rsRolleoversikt));
+
+        rolleoversiktRepository.save(rolleoversikt);
+        return Optional.of(rsRolleoversikt);
+    }
+
+    @SneakyThrows
     public Optional<RolleoversiktTo> hentRolleoversikt(String ident) {
         var rolleoversikt = rolleoversiktRepository.findByIdent(ident);
 
         if (rolleoversikt.isPresent()) {
             var to = objectMapper.readValue(rolleoversikt.get().getJson(), RolleoversiktTo.class);
             return Optional.of(to);
+        }
+        return Optional.empty();
+    }
+
+    @SneakyThrows
+    public Optional<RsRolleoversikt> hentRsRolleoversikt(String ident) {
+        var rolleoversikt = rolleoversiktRepository.findByIdent(ident);
+
+        if (rolleoversikt.isPresent()) {
+            var rsRolleoversikt = objectMapper.readValue(rolleoversikt.get().getJson(), RsRolleoversikt.class);
+            return Optional.of(rsRolleoversikt);
         }
         return Optional.empty();
     }

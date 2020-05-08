@@ -1,8 +1,8 @@
-package no.nav.brregstub.api;
-
+package no.nav.brregstub.api.v2;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class OrganisasjonTo {
+public class RsOrganisasjon {
 
     @ApiModelProperty(example = "998877665", required = true)
     @NotNull
@@ -23,9 +23,9 @@ public class OrganisasjonTo {
     @ApiModelProperty(dataType = "java.lang.String", example = "1976-01-01", required = true)
     @NotNull
     private LocalDate registreringsdato;
-    @Valid private SamendringTo kontaktperson;
-    @Valid private SamendringTo sameier;
-    @Valid private SamendringTo styre;
-    @Valid private SamendringTo komplementar;
-    @Valid private SamendringTo deltakere;
+    @Valid private RsSamendring kontaktperson;
+    @Valid private RsSamendring sameier;
+    @Valid private RsSamendring styre;
+    @Valid private RsSamendring komplementar;
+    @Valid private RsSamendring deltakere;
 }

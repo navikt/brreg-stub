@@ -3,7 +3,7 @@ package no.nav.brregstub.rs;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import no.nav.brregstub.api.OrganisasjonTo;
+import no.nav.brregstub.api.v1.OrganisasjonTo;
 import no.nav.brregstub.exception.CouldNotCreateStubException;
 import no.nav.brregstub.exception.NotFoundException;
 import no.nav.brregstub.service.HentRolleService;
