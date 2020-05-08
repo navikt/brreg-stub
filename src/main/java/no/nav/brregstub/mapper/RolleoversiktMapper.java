@@ -1,6 +1,8 @@
 package no.nav.brregstub.mapper;
 
 import lombok.SneakyThrows;
+
+import no.nav.brregstub.api.RolleKode;
 import no.nav.brregstub.api.v1.AdresseTo;
 import no.nav.brregstub.api.v1.NavnTo;
 import no.nav.brregstub.api.v1.RolleTo;
@@ -172,6 +174,13 @@ public class RolleoversiktMapper {
     public static Enhet.RolleBeskrivelse mapTilRollebeskrivelse(String beskrivelseTo) {
         var beskrivelse = new Enhet.RolleBeskrivelse();
         beskrivelse.setValue(beskrivelseTo);
+        beskrivelse.setLedetekst("Rolle");
+        return beskrivelse;
+    }
+
+    public static Enhet.RolleBeskrivelse mapTilRollebeskrivelse(RolleKode rolleKode) {
+        var beskrivelse = new Enhet.RolleBeskrivelse();
+        beskrivelse.setValue(rolleKode.getBeskrivelse());
         beskrivelse.setLedetekst("Rolle");
         return beskrivelse;
     }

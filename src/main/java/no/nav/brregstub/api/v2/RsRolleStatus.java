@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
-import no.nav.brregstub.api.RolleKode;
+import no.nav.brregstub.api.Egenskap;
 
 @Data
 @NoArgsConstructor
@@ -14,7 +14,7 @@ public class RsRolleStatus {
 
     @ApiModelProperty(dataType = "java.lang.String", example = "DAGL", required = true)
     @NotBlank
-    private RolleKode rolle;
+    private Egenskap rolle;
 
     @ApiModelProperty(example = "false", required = true)
     private boolean fratraadt;

@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
+import no.nav.brregstub.api.RolleKode;
+
 @Data
 @NoArgsConstructor
 public class RsRolle {
@@ -19,7 +21,7 @@ public class RsRolle {
 
     @ApiModelProperty(example = "Innehaver", required = true)
     @NotBlank
-    private String rollebeskrivelse;
+    private RolleKode rollebeskrivelse;
 
     @ApiModelProperty(example = "998877665", required = true)
     @NotNull
