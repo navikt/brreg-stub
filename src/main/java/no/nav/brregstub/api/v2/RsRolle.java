@@ -19,7 +19,7 @@ public class RsRolle {
     @NotNull
     private LocalDate registreringsdato;
 
-    @ApiModelProperty(example = "Innehaver", required = true)
+    @ApiModelProperty(dataType = "java.lang.Enum", example = "INNH", required = true)
     @NotBlank
     private RolleKode rollebeskrivelse;
 
