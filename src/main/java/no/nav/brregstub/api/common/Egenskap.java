@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Egenskap {
-    Deltaker,
+    Deltager,
     Komplementar,
     Kontaktperson,
     Sameier,
