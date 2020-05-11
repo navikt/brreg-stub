@@ -200,14 +200,15 @@ public class RolleoversiktService {
                 });
 
         try {
-            var eksisterendeOrganisasjon = objectMapper.readValue(rolleutskrift.getJson(), OrganisasjonTo.class);
-            if (eksisterendeOrganisasjon.getRegistreringsdato() == null) {
+            var json = rolleutskrift.getJson();
+            if (json == null) {
                 log.info("Organisasjon eksisterer ikke fra før. Må opprettes.");
                 // rolleutskrift.setJson(objectMapper.writeValueAsString(organisasjon));
             } else {
+                var eksisterendeOrganisasjon = objectMapper.readValue(json, OrganisasjonTo.class);
                 log.info("Organisasjon eksisterer fra før. Må oppdateres.");
             }
-//            rolleRepository.save(rolleutskrift);
+            //            rolleRepository.save(rolleutskrift);
         } catch (JsonProcessingException e) {
             log.error("Kunne ikke lagre organisasjon med orgnummer {}", organisasjon.getOrgnr(), e);
         }
