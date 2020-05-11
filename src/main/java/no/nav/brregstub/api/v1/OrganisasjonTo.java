@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Data
+@Builder
 @NoArgsConstructor
 public class OrganisasjonTo {
 

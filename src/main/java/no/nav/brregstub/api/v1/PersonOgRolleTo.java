@@ -3,6 +3,7 @@ package no.nav.brregstub.api.v1;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class PersonOgRolleTo {
 
     @ApiModelProperty(dataType = "java.lang.String", example = "010176100000", required = true)

@@ -17,5 +17,5 @@ public class RsRolleStatus {
     private Egenskap egenskap;
 
     @ApiModelProperty(example = "false", required = true)
-    private boolean fratraadt;
+    private Boolean fratraadt;
 }
