@@ -1,6 +1,5 @@
 package no.nav.brregstub.api.v1;
 
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +19,6 @@ public class PersonOgRolleTo {
     @ApiModelProperty(dataType = "java.lang.String", example = "010176100000", required = true)
     @NotBlank
     private String fodselsnr;
-
 
     @ApiModelProperty(dataType = "java.lang.String", example = "DAGL", required = true)
     @NotBlank
