@@ -1,8 +1,11 @@
 package no.nav.brregstub.api.v1;
 
-
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -10,9 +13,11 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class OrganisasjonTo {
 
     @ApiModelProperty(example = "998877665", required = true)
