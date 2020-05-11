@@ -42,6 +42,8 @@ public class RolleoversiktService {
     public Optional<RsRolleoversikt> opprettRolleoversiktV2(RsRolleoversikt rsRolleoversikt) {
         RolleoversiktMapper.map(rsRolleoversikt); //Sjekker om object kan mappes
 
+        setRollebeskrivelse(rsRolleoversikt);
+
         var rolleoversikt = rolleoversiktRepository.findByIdent(rsRolleoversikt.getFnr())
                 .orElseGet(() -> {
                     var rolleutskrift = new Rolleoversikt();
@@ -79,5 +81,13 @@ public class RolleoversiktService {
 
     public void slettRolleoversikt(String ident) {
         rolleoversiktRepository.findByIdent(ident).ifPresent(rolleoversiktRepository::delete);
+    }
+
+    private void setRollebeskrivelse(RsRolleoversikt rsRolleoversikt) {
+        for (var enhet : rsRolleoversikt.getEnheter()) {
+            if (enhet.getRollebeskrivelse() == null || enhet.getRollebeskrivelse().isBlank()) {
+                enhet.setRollebeskrivelse(enhet.getRolle().getBeskrivelse());
+            }
+        }
     }
 }
