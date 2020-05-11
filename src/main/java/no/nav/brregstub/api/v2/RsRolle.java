@@ -1,6 +1,6 @@
 package no.nav.brregstub.api.v2;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +25,7 @@ public class RsRolle {
     @NotNull
     private RolleKode rolle;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonIgnore
     @ApiModelProperty(hidden = true)
     private String rollebeskrivelse;
 
