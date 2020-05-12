@@ -136,25 +136,15 @@ public class RolleoversiktService {
             for (var personRolle : personRoller) {
                 var egenskap = personRolle.getEgenskap();
                 if (egenskap.equals(Egenskap.Deltager)) {
-                    var deltakere = organisasjon.getDeltakere();
-                    oppdaterSamendringsliste(deltakere, enhet, rsRolleoversikt.getFnr(), rsRolleoversikt.getNavn(), personRolle.isFratraadt());
-                    organisasjon.setDeltakere(deltakere);
+                    organisasjon.setDeltakere(oppdaterSamendringsliste(organisasjon.getDeltakere(), enhet, rsRolleoversikt.getFnr(), rsRolleoversikt.getNavn(), personRolle.isFratraadt()));
                 } else if (egenskap.equals(Egenskap.Komplementar)) {
-                    var komplementar = organisasjon.getKomplementar();
-                    oppdaterSamendringsliste(komplementar, enhet, rsRolleoversikt.getFnr(), rsRolleoversikt.getNavn(), personRolle.isFratraadt());
-                    organisasjon.setKomplementar(komplementar);
+                    organisasjon.setKomplementar(oppdaterSamendringsliste(organisasjon.getKomplementar(), enhet, rsRolleoversikt.getFnr(), rsRolleoversikt.getNavn(), personRolle.isFratraadt()));
                 } else if (egenskap.equals(Egenskap.Kontaktperson)) {
-                    var kontaktperson = organisasjon.getKontaktperson();
-                    oppdaterSamendringsliste(kontaktperson, enhet, rsRolleoversikt.getFnr(), rsRolleoversikt.getNavn(), personRolle.isFratraadt());
-                    organisasjon.setKontaktperson(kontaktperson);
+                    organisasjon.setKontaktperson(oppdaterSamendringsliste(organisasjon.getKontaktperson(), enhet, rsRolleoversikt.getFnr(), rsRolleoversikt.getNavn(), personRolle.isFratraadt()));
                 } else if (egenskap.equals(Egenskap.Sameier)) {
-                    var sameier = organisasjon.getSameier();
-                    oppdaterSamendringsliste(sameier, enhet, rsRolleoversikt.getFnr(), rsRolleoversikt.getNavn(), personRolle.isFratraadt());
-                    organisasjon.setSameier(sameier);
+                    organisasjon.setSameier(oppdaterSamendringsliste(organisasjon.getSameier(), enhet, rsRolleoversikt.getFnr(), rsRolleoversikt.getNavn(), personRolle.isFratraadt()));
                 } else if (egenskap.equals(Egenskap.Styre)) {
-                    var styre = organisasjon.getStyre();
-                    oppdaterSamendringsliste(styre, enhet, rsRolleoversikt.getFnr(), rsRolleoversikt.getNavn(), personRolle.isFratraadt());
-                    organisasjon.setStyre(styre);
+                    organisasjon.setStyre(oppdaterSamendringsliste(organisasjon.getStyre(), enhet, rsRolleoversikt.getFnr(), rsRolleoversikt.getNavn(), personRolle.isFratraadt()));
                 }
             }
         }
@@ -162,7 +152,7 @@ public class RolleoversiktService {
         return organisasjoner;
     }
 
-    private void oppdaterSamendringsliste(
+    private SamendringTo oppdaterSamendringsliste(
             SamendringTo samendring,
             RsRolle enhet,
             String fnr,
@@ -187,6 +177,7 @@ public class RolleoversiktService {
                 .poststed(enhet.getForretningsAdresse().getPoststed())
                 .fratraadt(fratraadt)
                 .build());
+        return samendring;
     }
 
     private void lagreEllerOppdaterOrganisasjon(OrganisasjonTo nyOrganisasjon) {
