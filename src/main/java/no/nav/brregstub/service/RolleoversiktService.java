@@ -130,7 +130,6 @@ public class RolleoversiktService {
                         .understatuser(understatuser)
                         .registreringsdato(registreringsdato)
                         .build();
-                organisasjoner.add(organisasjon);
             }
 
             for (var personRolle : personRoller) {
@@ -147,6 +146,8 @@ public class RolleoversiktService {
                     organisasjon.setStyre(oppdaterSamendringsliste(organisasjon.getStyre(), enhet, rsRolleoversikt.getFnr(), rsRolleoversikt.getNavn(), personRolle.isFratraadt()));
                 }
             }
+
+            organisasjoner.add(organisasjon);
         }
 
         return organisasjoner;
