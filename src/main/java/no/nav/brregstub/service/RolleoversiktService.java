@@ -134,6 +134,7 @@ public class RolleoversiktService {
 
             for (var personRolle : personRoller) {
                 var egenskap = personRolle.getEgenskap();
+                log.info("Person med fnr {} har egenskap {}", rsRolleoversikt.getFnr(), egenskap);
                 if (egenskap.equals(Egenskap.Deltager)) {
                     organisasjon.setDeltakere(oppdaterSamendringsliste(organisasjon.getDeltakere(), enhet, rsRolleoversikt.getFnr(), rsRolleoversikt.getNavn(), personRolle.isFratraadt()));
                 } else if (egenskap.equals(Egenskap.Komplementar)) {
@@ -160,11 +161,14 @@ public class RolleoversiktService {
             RsNavn navn,
             boolean fratraadt
     ) {
+        log.info("oppdaterSamendringsliste()");
         if (samendring == null) {
+            log.info("oppdaterSamendringsliste() - samending == null");
             samendring = new SamendringTo();
             samendring.setRegistringsDato(enhet.getRegistreringsdato());
         }
         if (samendring.getRoller() == null) {
+            log.info("oppdaterSamendringsliste() - samendring.getRoller == null");
             samendring.setRoller(new ArrayList<>());
         }
         samendring.getRoller().add(PersonOgRolleTo.builder()
@@ -204,7 +208,9 @@ public class RolleoversiktService {
                 oppdatert = oppdaterEksisterendeOrganisasjon(eksisterendeOrganisasjon, nyOrganisasjon);
                 rolleutskrift.setJson(objectMapper.writeValueAsString(eksisterendeOrganisasjon));
             }
+            log.info("rolleutskrift.json: {}", rolleutskrift.getJson());
             if (oppdatert) {
+                log.info("oppdatert == true - oppdaterer");
                 rolleRepository.save(rolleutskrift);
             }
         } catch (JsonProcessingException e) {
