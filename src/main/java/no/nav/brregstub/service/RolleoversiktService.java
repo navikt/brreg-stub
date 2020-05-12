@@ -72,9 +72,7 @@ public class RolleoversiktService {
 
         rolleoversiktRepository.save(rolleoversikt);
 
-        for (var organisasjon : organisasjoner) {
-            lagreEllerOppdaterOrganisasjon(organisasjon);
-        }
+        organisasjoner.forEach(this::lagreEllerOppdaterOrganisasjon);
 
         return Optional.of(rsRolleoversikt);
     }
@@ -106,35 +104,25 @@ public class RolleoversiktService {
     }
 
     private List<OrganisasjonTo> byggOrganisasjoner(RsRolleoversikt rsRolleoversikt) {
-        var understatuser = rsRolleoversikt.getUnderstatuser();
-        var hovedstatus = rsRolleoversikt.getHovedstatus();
-        var enheter = rsRolleoversikt.getEnheter();
-
         List<OrganisasjonTo> organisasjoner = new ArrayList<>();
-        for (var enhet : enheter) {
+        for (var enhet : rsRolleoversikt.getEnheter()) {
             var orgNr = enhet.getOrgNr();
             var registreringsdato = enhet.getRegistreringsdato();
             var personRoller = enhet.getPersonRolle();
 
-            OrganisasjonTo organisasjon = null;
-            for (var eksisterendeOrganisasjon : organisasjoner) {
-                if (orgNr.equals(eksisterendeOrganisasjon.getOrgnr())) {
-                    organisasjon = eksisterendeOrganisasjon;
-                    break;
-                }
-            }
+            var organisasjon = organisasjoner.stream().filter(eksisterendeOrganisasjon -> orgNr.equals(eksisterendeOrganisasjon.getOrgnr())).findFirst().orElse(null);
+
             if (organisasjon == null) {
                 organisasjon = OrganisasjonTo.builder()
                         .orgnr(orgNr)
-                        .hovedstatus(hovedstatus)
-                        .understatuser(understatuser)
+                        .hovedstatus(rsRolleoversikt.getHovedstatus())
+                        .understatuser(rsRolleoversikt.getUnderstatuser())
                         .registreringsdato(registreringsdato)
                         .build();
             }
 
             for (var personRolle : personRoller) {
                 var egenskap = personRolle.getEgenskap();
-                log.info("Person med fnr {} har egenskap {}", rsRolleoversikt.getFnr(), egenskap);
                 if (egenskap.equals(Egenskap.Deltager)) {
                     organisasjon.setDeltakere(oppdaterSamendringsliste(organisasjon.getDeltakere(), enhet, rsRolleoversikt.getFnr(), rsRolleoversikt.getNavn(), personRolle.isFratraadt()));
                 } else if (egenskap.equals(Egenskap.Komplementar)) {
@@ -161,14 +149,11 @@ public class RolleoversiktService {
             RsNavn navn,
             boolean fratraadt
     ) {
-        log.info("oppdaterSamendringsliste()");
         if (samendring == null) {
-            log.info("oppdaterSamendringsliste() - samending == null");
             samendring = new SamendringTo();
             samendring.setRegistringsDato(enhet.getRegistreringsdato());
         }
         if (samendring.getRoller() == null) {
-            log.info("oppdaterSamendringsliste() - samendring.getRoller == null");
             samendring.setRoller(new ArrayList<>());
         }
         samendring.getRoller().add(PersonOgRolleTo.builder()
@@ -196,87 +181,72 @@ public class RolleoversiktService {
                 });
 
         try {
-            boolean oppdatert;
             var json = rolleutskrift.getJson();
             if (json == null) {
                 log.info("Organisasjon eksisterer ikke fra før. Må opprettes.");
                 rolleutskrift.setJson(objectMapper.writeValueAsString(nyOrganisasjon));
-                oppdatert = true;
             } else {
                 var eksisterendeOrganisasjon = objectMapper.readValue(json, OrganisasjonTo.class);
                 log.info("Oppdaterer organisasjon med orgnummer {}", nyOrganisasjon.getOrgnr());
-                oppdatert = oppdaterEksisterendeOrganisasjon(eksisterendeOrganisasjon, nyOrganisasjon);
+                oppdaterEksisterendeOrganisasjon(eksisterendeOrganisasjon, nyOrganisasjon);
                 rolleutskrift.setJson(objectMapper.writeValueAsString(eksisterendeOrganisasjon));
             }
-            log.info("rolleutskrift.json: {}", rolleutskrift.getJson());
-            if (oppdatert) {
-                log.info("oppdatert == true - oppdaterer");
-                rolleRepository.save(rolleutskrift);
-            }
+            rolleRepository.save(rolleutskrift);
         } catch (JsonProcessingException e) {
             log.error("Kunne ikke lagre organisasjon med orgnummer {}", nyOrganisasjon.getOrgnr(), e);
         }
     }
 
-    private boolean oppdaterEksisterendeOrganisasjon(
+    private void oppdaterEksisterendeOrganisasjon(
             OrganisasjonTo eksisterende,
             OrganisasjonTo ny
     ) {
-        boolean oppdatert = false;
         if (ny.getKontaktperson() != null) {
             if (eksisterende.getKontaktperson() != null) {
-                oppdatert = leggTilHvisIkkeDuplikat("kontaktperson", eksisterende.getOrgnr(), eksisterende.getKontaktperson().getRoller(), ny.getKontaktperson().getRoller());
+                leggTilHvisIkkeDuplikat("kontaktperson", eksisterende.getOrgnr(), eksisterende.getKontaktperson().getRoller(), ny.getKontaktperson().getRoller());
             } else {
                 eksisterende.setKontaktperson(ny.getKontaktperson());
-                oppdatert = true;
             }
         }
         if (ny.getSameier() != null) {
             if (eksisterende.getSameier() != null) {
-                oppdatert = leggTilHvisIkkeDuplikat("sameier", eksisterende.getOrgnr(), eksisterende.getSameier().getRoller(), ny.getSameier().getRoller());
+                leggTilHvisIkkeDuplikat("sameier", eksisterende.getOrgnr(), eksisterende.getSameier().getRoller(), ny.getSameier().getRoller());
             } else {
                 eksisterende.setSameier(ny.getSameier());
-                oppdatert = true;
             }
         }
         if (ny.getStyre() != null) {
             if (eksisterende.getStyre() != null) {
-                oppdatert = leggTilHvisIkkeDuplikat("styre", eksisterende.getOrgnr(), eksisterende.getStyre().getRoller(), ny.getStyre().getRoller());
+                leggTilHvisIkkeDuplikat("styre", eksisterende.getOrgnr(), eksisterende.getStyre().getRoller(), ny.getStyre().getRoller());
             } else {
                 eksisterende.setStyre(ny.getStyre());
-                oppdatert = true;
             }
         }
         if (ny.getKomplementar() != null) {
             if (eksisterende.getKomplementar() != null) {
-                oppdatert = leggTilHvisIkkeDuplikat("komplementar", eksisterende.getOrgnr(), eksisterende.getKomplementar().getRoller(), ny.getKomplementar().getRoller());
+                leggTilHvisIkkeDuplikat("komplementar", eksisterende.getOrgnr(), eksisterende.getKomplementar().getRoller(), ny.getKomplementar().getRoller());
             } else {
                 eksisterende.setKomplementar(ny.getKomplementar());
-                oppdatert = true;
             }
         }
         if (ny.getDeltakere() != null) {
             if (eksisterende.getDeltakere() != null) {
-                oppdatert = leggTilHvisIkkeDuplikat("deltaker", eksisterende.getOrgnr(), eksisterende.getDeltakere().getRoller(), ny.getDeltakere().getRoller());
+                leggTilHvisIkkeDuplikat("deltaker", eksisterende.getOrgnr(), eksisterende.getDeltakere().getRoller(), ny.getDeltakere().getRoller());
             } else {
                 eksisterende.setDeltakere(ny.getDeltakere());
-                oppdatert = true;
             }
         }
-        return oppdatert;
     }
 
-    private boolean leggTilHvisIkkeDuplikat(
+    private void leggTilHvisIkkeDuplikat(
             String typeSamendring,
             Integer orgnr,
             List<PersonOgRolleTo> eksisterendeRoller,
             List<PersonOgRolleTo> nyeRoller
     ) {
-        boolean oppdatert = false;
-        for (var nyRolle : nyeRoller) {
+        nyeRoller.forEach(nyRolle -> {
             if (!isRolleDuplikat(eksisterendeRoller, nyRolle)) {
                 eksisterendeRoller.add(nyRolle);
-                oppdatert = true;
             } else {
                 log.info("Samendring av type '{}': Person med fnr '{}', rolle '{}' og fratredelsestatus '{}' finnes allerede i organisasjon '{}'.",
                         typeSamendring,
@@ -285,25 +255,19 @@ public class RolleoversiktService {
                         nyRolle.isFratraadt(),
                         orgnr);
             }
-        }
-        return oppdatert;
+        });
     }
 
     private boolean isRolleDuplikat(
             List<PersonOgRolleTo> eksisterendeRoller,
             PersonOgRolleTo nyRolle
     ) {
-        var fodselsnr = nyRolle.getFodselsnr();
-        var rolle = nyRolle.getRolle();
-        var fratraadt = nyRolle.isFratraadt();
-        for (var eksisterendePerson : eksisterendeRoller) {
-            if (fodselsnr.equals(eksisterendePerson.getFodselsnr())
-                    && rolle.equals(eksisterendePerson.getRolle())
-                    && fratraadt == eksisterendePerson.isFratraadt()) {
-                return true;
-            }
-        }
-        return false;
+        return eksisterendeRoller.stream().anyMatch(
+                eksisterendePerson ->
+                        nyRolle.getFodselsnr().equals(eksisterendePerson.getFodselsnr())
+                                && nyRolle.getRolle().equals(eksisterendePerson.getRolle())
+                                && nyRolle.isFratraadt() == eksisterendePerson.isFratraadt()
+        );
     }
 
     private void setRollebeskrivelse(RsRolleoversikt rsRolleoversikt) {
