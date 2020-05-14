@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
 
-import no.nav.brregstub.api.v1.OrganisasjonTo;
+import no.nav.brregstub.api.common.RsOrganisasjon;
 import no.nav.brregstub.exception.CouldNotCreateStubException;
 import no.nav.brregstub.exception.NotFoundException;
 import no.nav.brregstub.service.HentRolleService;
@@ -33,14 +33,14 @@ public class HentRolleController {
     private final HentRolleService service;
 
     @PostMapping
-    public ResponseEntity<Map> lagreEllerOppdaterHentRolleStub(@Valid @RequestBody OrganisasjonTo request) {
+    public ResponseEntity<Map> lagreEllerOppdaterHentRolleStub(@Valid @RequestBody RsOrganisasjon request) {
         var organisasjonTo = service.lagreEllerOppdaterDataForHentRolle(request)
-                .orElseThrow(() -> new CouldNotCreateStubException(""));
+                .orElseThrow(() -> new CouldNotCreateStubException("Kunne ikke opprette/oppdatere rolle"));
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("path", API_V_1_HENTROLLE + "/" + request.getOrgnr()));
     }
 
     @GetMapping("/{orgnr}")
-    public ResponseEntity<OrganisasjonTo> hentGrunndata(@NotNull @PathVariable Integer orgnr) {
+    public ResponseEntity<RsOrganisasjon> hentGrunndata(@NotNull @PathVariable Integer orgnr) {
         var grunndata = service.hentRolle(orgnr)
                 .orElseThrow(() -> new NotFoundException(String.format("Kunne ikke finne roller for :%s",
                         orgnr)));

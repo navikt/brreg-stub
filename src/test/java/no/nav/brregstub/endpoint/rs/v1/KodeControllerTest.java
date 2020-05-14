@@ -1,4 +1,4 @@
-package no.nav.brregstub.endpoint.rs;
+package no.nav.brregstub.endpoint.rs.v1;
 
 import no.nav.brregstub.ApplicationConfig;
 import no.nav.brregstub.api.common.RolleKode;

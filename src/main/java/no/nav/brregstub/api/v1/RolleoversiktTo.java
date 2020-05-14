@@ -45,4 +45,11 @@ public class RolleoversiktTo {
     private Integer hovedstatus = 0;
 
     private List<Integer> understatuser = new LinkedList<>();
+
+    public List<Integer> getUnderstatuser() {
+        if (understatuser == null) {
+            understatuser = new LinkedList<>();
+        }
+        return understatuser;
+    }
 }

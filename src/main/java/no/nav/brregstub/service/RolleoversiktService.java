@@ -13,10 +13,10 @@ import java.util.Optional;
 
 import no.nav.brregstub.api.common.Egenskap;
 import no.nav.brregstub.api.common.RsNavn;
-import no.nav.brregstub.api.v1.OrganisasjonTo;
-import no.nav.brregstub.api.v1.PersonOgRolleTo;
+import no.nav.brregstub.api.common.RsOrganisasjon;
+import no.nav.brregstub.api.common.RsPersonOgRolle;
 import no.nav.brregstub.api.v1.RolleoversiktTo;
-import no.nav.brregstub.api.v1.SamendringTo;
+import no.nav.brregstub.api.common.RsSamendring;
 import no.nav.brregstub.api.v2.RsRolle;
 import no.nav.brregstub.api.v2.RsRolleoversikt;
 import no.nav.brregstub.database.domene.HentRolle;
@@ -103,8 +103,8 @@ public class RolleoversiktService {
         rolleoversiktRepository.findByIdent(ident).ifPresent(rolleoversiktRepository::delete);
     }
 
-    private List<OrganisasjonTo> byggOrganisasjoner(RsRolleoversikt rsRolleoversikt) {
-        List<OrganisasjonTo> organisasjoner = new ArrayList<>();
+    private List<RsOrganisasjon> byggOrganisasjoner(RsRolleoversikt rsRolleoversikt) {
+        List<RsOrganisasjon> organisasjoner = new ArrayList<>();
         for (var enhet : rsRolleoversikt.getEnheter()) {
             var orgNr = enhet.getOrgNr();
             var registreringsdato = enhet.getRegistreringsdato();
@@ -113,7 +113,7 @@ public class RolleoversiktService {
             var organisasjon = organisasjoner.stream().filter(eksisterendeOrganisasjon -> orgNr.equals(eksisterendeOrganisasjon.getOrgnr())).findFirst().orElse(null);
 
             if (organisasjon == null) {
-                organisasjon = OrganisasjonTo.builder()
+                organisasjon = RsOrganisasjon.builder()
                         .orgnr(orgNr)
                         .hovedstatus(rsRolleoversikt.getHovedstatus())
                         .understatuser(rsRolleoversikt.getUnderstatuser())
@@ -142,35 +142,35 @@ public class RolleoversiktService {
         return organisasjoner;
     }
 
-    private SamendringTo oppdaterSamendringsliste(
-            SamendringTo samendring,
+    private RsSamendring oppdaterSamendringsliste(
+            RsSamendring samendring,
             RsRolle enhet,
             String fnr,
             RsNavn navn,
             boolean fratraadt
     ) {
         if (samendring == null) {
-            samendring = new SamendringTo();
+            samendring = new RsSamendring();
             samendring.setRegistringsDato(enhet.getRegistreringsdato());
         }
         if (samendring.getRoller() == null) {
             samendring.setRoller(new ArrayList<>());
         }
-        samendring.getRoller().add(PersonOgRolleTo.builder()
+        samendring.getRoller().add(RsPersonOgRolle.builder()
                 .fodselsnr(fnr)
                 .rolle(enhet.getRolle().name())
                 .rollebeskrivelse(enhet.getRolle().getBeskrivelse())
                 .fornavn(navn.getNavn1())
                 .slektsnavn(navn.getNavn3())
-                .adresse1(enhet.getForretningsAdresse().getAdresse1())
-                .postnr(enhet.getForretningsAdresse().getPostnr())
-                .poststed(enhet.getForretningsAdresse().getPoststed())
+                .adresse1(enhet.getForretningsAdresse() != null ? enhet.getForretningsAdresse().getAdresse1() : null)
+                .postnr(enhet.getForretningsAdresse() != null ? enhet.getForretningsAdresse().getPostnr() : null)
+                .poststed(enhet.getForretningsAdresse() != null ? enhet.getForretningsAdresse().getPoststed() : null)
                 .fratraadt(fratraadt)
                 .build());
         return samendring;
     }
 
-    private void lagreEllerOppdaterOrganisasjon(OrganisasjonTo nyOrganisasjon) {
+    private void lagreEllerOppdaterOrganisasjon(RsOrganisasjon nyOrganisasjon) {
         HentRolleMapper.map(nyOrganisasjon); //sjekker om input kan mappes før lagring
 
         var rolleutskrift = rolleRepository.findByOrgnr(nyOrganisasjon.getOrgnr())
@@ -186,7 +186,7 @@ public class RolleoversiktService {
                 log.info("Organisasjon eksisterer ikke fra før. Må opprettes.");
                 rolleutskrift.setJson(objectMapper.writeValueAsString(nyOrganisasjon));
             } else {
-                var eksisterendeOrganisasjon = objectMapper.readValue(json, OrganisasjonTo.class);
+                var eksisterendeOrganisasjon = objectMapper.readValue(json, RsOrganisasjon.class);
                 log.info("Oppdaterer organisasjon med orgnummer {}", nyOrganisasjon.getOrgnr());
                 oppdaterEksisterendeOrganisasjon(eksisterendeOrganisasjon, nyOrganisasjon);
                 rolleutskrift.setJson(objectMapper.writeValueAsString(eksisterendeOrganisasjon));
@@ -198,8 +198,8 @@ public class RolleoversiktService {
     }
 
     private void oppdaterEksisterendeOrganisasjon(
-            OrganisasjonTo eksisterende,
-            OrganisasjonTo ny
+            RsOrganisasjon eksisterende,
+            RsOrganisasjon ny
     ) {
         if (ny.getKontaktperson() != null) {
             if (eksisterende.getKontaktperson() != null) {
@@ -241,8 +241,8 @@ public class RolleoversiktService {
     private void leggTilHvisIkkeDuplikat(
             String typeSamendring,
             Integer orgnr,
-            List<PersonOgRolleTo> eksisterendeRoller,
-            List<PersonOgRolleTo> nyeRoller
+            List<RsPersonOgRolle> eksisterendeRoller,
+            List<RsPersonOgRolle> nyeRoller
     ) {
         nyeRoller.forEach(nyRolle -> {
             if (!isRolleDuplikat(eksisterendeRoller, nyRolle)) {
@@ -259,8 +259,8 @@ public class RolleoversiktService {
     }
 
     private boolean isRolleDuplikat(
-            List<PersonOgRolleTo> eksisterendeRoller,
-            PersonOgRolleTo nyRolle
+            List<RsPersonOgRolle> eksisterendeRoller,
+            RsPersonOgRolle nyRolle
     ) {
         return eksisterendeRoller.stream().anyMatch(
                 eksisterendePerson ->

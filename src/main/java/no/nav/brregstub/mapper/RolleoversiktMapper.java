@@ -65,20 +65,19 @@ public class RolleoversiktMapper {
         responseHeader.setFodselsnr(to.getFnr());
         responseHeader.setHovedStatus(to.getHovedstatus());
         var underStatus = new UnderStatus();
-        if (to.getUnderstatuser() == null || to.getUnderstatuser().isEmpty()) {
+        if (to.getUnderstatuser().isEmpty()) {
             var underStatusMelding = new UnderStatusMelding();
             underStatusMelding.setKode(0);
             underStatusMelding.setValue(understatusKoder.get(0));
 
             underStatus.getUnderStatusMelding().add(underStatusMelding);
         } else {
-            for (Integer understatus : to.getUnderstatuser()) {
+            to.getUnderstatuser().forEach(understatus -> {
                 var underStatusMelding = new UnderStatusMelding();
                 underStatusMelding.setKode(understatus);
                 underStatusMelding.setValue(understatusKoder.get(understatus));
-
                 underStatus.getUnderStatusMelding().add(underStatusMelding);
-            }
+            });
         }
 
         responseHeader.setUnderStatus(underStatus);
@@ -92,20 +91,19 @@ public class RolleoversiktMapper {
         responseHeader.setFodselsnr(rsRolleoversikt.getFnr());
         responseHeader.setHovedStatus(rsRolleoversikt.getHovedstatus());
         var underStatus = new UnderStatus();
-        if (rsRolleoversikt.getUnderstatuser() == null || rsRolleoversikt.getUnderstatuser().isEmpty()) {
+        if (rsRolleoversikt.getUnderstatuser().isEmpty()) {
             var underStatusMelding = new UnderStatusMelding();
             underStatusMelding.setKode(0);
             underStatusMelding.setValue(understatusKoder.get(0));
 
             underStatus.getUnderStatusMelding().add(underStatusMelding);
         } else {
-            for (Integer understatus : rsRolleoversikt.getUnderstatuser()) {
+            rsRolleoversikt.getUnderstatuser().forEach(understatus -> {
                 var underStatusMelding = new UnderStatusMelding();
                 underStatusMelding.setKode(understatus);
                 underStatusMelding.setValue(understatusKoder.get(understatus));
-
                 underStatus.getUnderStatusMelding().add(underStatusMelding);
-            }
+            });
         }
 
         responseHeader.setUnderStatus(underStatus);

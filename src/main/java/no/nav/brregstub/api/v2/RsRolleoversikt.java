@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,4 +46,11 @@ public class RsRolleoversikt {
     private Integer hovedstatus = 0;
 
     private List<Integer> understatuser = new LinkedList<>();
+
+    public List<Integer> getUnderstatuser() {
+        if (understatuser == null) {
+            understatuser = new ArrayList<>();
+        }
+        return understatuser;
+    }
 }

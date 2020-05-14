@@ -1,4 +1,4 @@
-package no.nav.brregstub.endpoint.rs;
+package no.nav.brregstub.endpoint.rs.v1;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
